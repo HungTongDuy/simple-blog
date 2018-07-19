@@ -81,5 +81,6 @@ module.exports = {
         historyApiFallback: true,
         publicPath: '/',
         contentBase: './dist',
+        port: 8002
     },
 };

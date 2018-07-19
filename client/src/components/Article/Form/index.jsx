@@ -2,6 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import { SUBMIT_ARTICLE, EDIT_ARTICLE, HOST, PORT } from '../../../../constants';
+import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+
 class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +28,7 @@ class Form extends React.Component {
         const { onSubmit, articleToEdit, onEdit } = this.props;
 
         if(!articleToEdit) {
-            return axios.post('http://localhost:8000/api/articles', { title, body, author })
+            return axios.post(`http://${HOST}:${PORT}/api/articles/`, { title, body, author })
             .then((res) => {
                 console.log('response', res);
                 if (res.status == 200) {
@@ -36,7 +41,7 @@ class Form extends React.Component {
             })
             .then(() => this.setState({ title: '', body: '', author: '' }));
         } else {
-            return axios.patch(`http://localhost:8000/api/articles/${articleToEdit._id}`, { title, body, author })
+            return axios.patch(`http://${HOST}:${PORT}/api/articles/${articleToEdit._id}`, { title, body, author })
             .then((res) => onEdit(res.data))
             .then(() => this.setState({ title: '', body: '', author: '' }));
         }
@@ -69,25 +74,66 @@ class Form extends React.Component {
         const { articleToEdit } = this.props;
         console.log('isSubmitSuccess', isSubmitSuccess);
         return (
+            <div>
+            <Grid container spacing={24}>
+                <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
+                        <Input
+                            placeholder="Article Title"
+                            inputProps={{
+                                'aria-label': 'Description',
+                            }}
+                            onChange={(e) => this.handleChangeField('title', e)}
+                            value={title}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField 
+                            placeholder="Article Description"
+                            onChange={(e) => this.handleChangeField('body', e)}
+                            value={body}
+                            multiLine={true}
+                            rows={8}
+                            rowsMax={40}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Input
+                            inputProps={{
+                                'aria-label': 'Description',
+                            }}
+                            placeholder="Article Author"
+                            onChange={(e) => this.handleChangeField('author', e)}
+                            value={author}
+                        />
+                    </Grid>
+                </Grid>
+            </Grid>
             <div className="col-12 col-lg-6 offset-lg-3">
-                <input
-                    className="form-control my-3"
+                {/* <Input
                     placeholder="Article Title"
+                    inputProps={{
+                        'aria-label': 'Description',
+                    }}
                     onChange={(e) => this.handleChangeField('title', e)}
                     value={title}
                 />
-                <textarea
-                    className="form-control my-3"
+                <TextField 
                     placeholder="Article Description"
                     onChange={(e) => this.handleChangeField('body', e)}
-                    value={body}>
-                </textarea>
-                <input
-                    className="form-control my-3"
+                    value={body}
+                    multiLine={true}
+                    rows={8}
+                    rowsMax={40}
+                />
+                <Input
+                    inputProps={{
+                        'aria-label': 'Description',
+                    }}
                     placeholder="Article Author"
                     onChange={(e) => this.handleChangeField('author', e)}
                     value={author}
-                />
+                /> */}
                 <button onClick={this.handleSubmit} className="btn btn-primary float-right">Submit</button>
                 
                 { !isSubmitSuccess ? '' : 
@@ -112,13 +158,14 @@ class Form extends React.Component {
                 }
 
             </div>
+            </div>
         )
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
-    onEdit: data => dispatch({ type: 'EDIT_ARTICLE', data })
+    onSubmit: data => dispatch({ type: SUBMIT_ARTICLE, data }),
+    onEdit: data => dispatch({ type: EDIT_ARTICLE, data })
 });
 
 const mapStateToProps = state => ({
