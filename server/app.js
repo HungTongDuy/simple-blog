@@ -6,6 +6,10 @@ const cors = require('cors');
 const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
 
+const { databaseLocal } = require('./config');
+
+const port = process.env.PORT || 8000;
+
 mongoose.promise = global.Promise;
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -32,8 +36,8 @@ if (!isProduction) {
     app.use(errorHandler());
 }
 
-//mongoose.connect('mongodb://localhost/lightblog', { useNewUrlParser: true });
-mongoose.connect('mongodb://localhost/lightblog');
+//mongoose.connect(databaseLocal, { useNewUrlParser: true });
+mongoose.connect(databaseLocal);
 mongoose.set('debug', true);
 
 // Add models
@@ -70,5 +74,5 @@ app.use((err, req, res) => {
         },
     });
 });
-var port = process.env.PORT || 8000;
-const server = app.listen(port, () => console.log('Server started on http://localhost:8000'));
+
+const server = app.listen(port, () => console.log('Server started on http://localhost:' + port));

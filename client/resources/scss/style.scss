@@ -7,3 +7,131 @@ html {
     color: rgba(0, 0, 0, .75);
     font-family: 'Nunito';
 }
+
+.container {
+    max-width: 1032px;
+    width: 100%;
+    margin: 0 auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.card {
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.extremePostPreview-image {
+    float: right;
+}
+
+.extremePostPreview-post {
+    text-align: left!important;
+    margin-right: 24px!important;
+    display: inline-block;
+}
+
+.card-header .title {
+    overflow: hidden!important;
+    max-height: 84px!important;
+    text-overflow: ellipsis!important;
+    display: -webkit-box!important;
+    -webkit-line-clamp: 3!important;
+    -webkit-box-orient: vertical;
+    font-weight: 600!important;
+    font-size: 24px!important;
+    line-height: 28px!important;
+    transform: translateY(-.72px);
+    letter-spacing: -.42px!important;
+}
+
+.extremeHero-titleClamp .title{
+    overflow: hidden!important;
+    max-height: 44px!important;
+    text-overflow: ellipsis!important;
+    display: -webkit-box!important;
+    -webkit-line-clamp: 3!important;
+    -webkit-box-orient: vertical;
+    font-weight: 600!important;
+    font-size: 24px!important;
+    line-height: 28px!important;
+    transform: translateY(-.72px);
+    letter-spacing: -.42px!important;
+}
+
+.extremeHero-postContent .title {
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+    display: -webkit-box!important;
+    -webkit-line-clamp: 3!important;
+    -webkit-box-orient: vertical;
+    font-weight: 600!important;
+    font-size: 24px!important;
+    line-height: 28px!important;
+    transform: translateY(-.72px);
+    margin-top: 0;
+}
+
+.extremeHero-post {
+    width: 100%;
+}
+
+.extremeHero-largeCard {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin-right: 24px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    display: inline-block;
+}
+.extremeHero-post img {
+    width: 100%;
+    height: 100%;
+}
+.extremeHero-smallCardContainer {
+    float: right;
+}
+
+.extremeHero-image {
+    float: left;
+    display: inline-block;
+}
+
+.extremeHero-image img{
+    width: 100%;
+    margin-top: 10px;
+}
+
+.streamItem .extremeHero-postContent {
+    float: left;
+    display: inline-block;
+}
+
+.homeTopStream {
+    border-bottom: 1px solid #000;
+    padding-bottom: 25px;
+}
+
+.homeCenterStream {
+    margin-top: 30px;
+}
