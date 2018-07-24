@@ -7,7 +7,6 @@ html {
     color: rgba(0, 0, 0, .75);
     font-family: 'Nunito';
 }
-
 .container {
     max-width: 1032px;
     width: 100%;
@@ -19,32 +18,28 @@ html {
     -ms-flex-pack: justify;
     justify-content: space-between;
 }
-
 .card {
     margin: 0 auto;
     width: 100%;
     margin-bottom: 20px;
+    display: block;
+    float: left;
 }
-
-.text-center{
+.text-center {
     text-align: center;
 }
-
 .header {
     text-align: center;
     margin-bottom: 10px;
 }
-
 .extremePostPreview-image {
     float: right;
 }
-
 .extremePostPreview-post {
     text-align: left!important;
     margin-right: 24px!important;
     display: inline-block;
 }
-
 .card-header .title {
     overflow: hidden!important;
     max-height: 84px!important;
@@ -58,21 +53,13 @@ html {
     transform: translateY(-.72px);
     letter-spacing: -.42px!important;
 }
-
 .extremeHero-titleClamp .title{
-    overflow: hidden!important;
-    max-height: 44px!important;
-    text-overflow: ellipsis!important;
-    display: -webkit-box!important;
-    -webkit-line-clamp: 3!important;
-    -webkit-box-orient: vertical;
-    font-weight: 600!important;
-    font-size: 24px!important;
-    line-height: 28px!important;
-    transform: translateY(-.72px);
     letter-spacing: -.42px!important;
+    margin-bottom: 5px;
 }
-
+.extremeHero-post .title {
+    margin-bottom: 15px;
+}
 .extremeHero-postContent .title {
     overflow: hidden!important;
     text-overflow: ellipsis!important;
@@ -85,11 +72,9 @@ html {
     transform: translateY(-.72px);
     margin-top: 0;
 }
-
 .extremeHero-post {
     width: 100%;
 }
-
 .extremeHero-largeCard {
     display: -webkit-box;
     display: -webkit-flex;
@@ -103,35 +88,50 @@ html {
     -ms-flex: 0 1 auto;
     flex: 0 1 auto;
     display: inline-block;
+    padding-right: 10px!important;
 }
 .extremeHero-post img {
     width: 100%;
-    height: 100%;
+    height: 170px;
+
 }
 .extremeHero-smallCardContainer {
     float: right;
+    padding-left: 10px!important;
 }
-
 .extremeHero-image {
     float: left;
     display: inline-block;
+    padding-right: 10px;
 }
-
 .extremeHero-image img{
-    width: 100%;
-    margin-top: 10px;
+    width: 100px;
+    height: 100px;
 }
-
 .streamItem .extremeHero-postContent {
     float: left;
     display: inline-block;
+    padding-left: 10px;
 }
-
 .homeTopStream {
     border-bottom: 1px solid #000;
     padding-bottom: 25px;
+    width: 100%;
+    height: 350px;
+    max-width: 1208px;
 }
-
 .homeCenterStream {
     margin-top: 30px;
+}
+.extremeHero-postContent {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+.extremeHero-titleClamp {
+    overflow: hidden;
+}
+.extremeHero-content {
+    height: 60px;
 }

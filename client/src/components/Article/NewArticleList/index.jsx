@@ -24,7 +24,7 @@ class NewArticleList extends React.Component {
                                         <h3 className="title">{article.title}</h3>
                                     </div>
                                     <div className="card-body">
-                                        {article.body}
+                                        {article.description}
                                         <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                                     </div>
                                     <div className="card-footer">
