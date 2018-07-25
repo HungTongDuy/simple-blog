@@ -5,8 +5,9 @@ const session = require('express-session');
 const cors = require('cors');
 const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary');
 
-const { databaseLocal } = require('./config');
+const { databaseLocal, cloud_name, api_key, api_secret  } = require('./config');
 
 const port = process.env.PORT || 8000;
 
@@ -32,16 +33,31 @@ app.use(session({
     saveUninitialized: false
 }));
 
+cloudinary.config({
+    cloud_name: cloud_name,
+    api_key: api_key,
+    api_secret: api_secret
+})
+
 if (!isProduction) {
     app.use(errorHandler());
 }
 
 //mongoose.connect(databaseLocal, { useNewUrlParser: true });
-mongoose.connect(databaseLocal);
+//mongoose.connect(databaseLocal);
+
+mongoose.connect(databaseLocal, {
+    //useMongoClient: true,
+    useNewUrlParser: true
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
 mongoose.set('debug', true);
 
 // Add models
-require('./models/Articles');
+require('./models/Article');
+require('./models/User');
 // Add routes
 app.use(require('./routes'));
 

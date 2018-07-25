@@ -1,99 +1,46 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
-const Articles = mongoose.model('Articles');
+const articleController = require('./../../controllers/articleController');
 
-router.post('/', (req, res, next) => {
-    const {
-        body
-    } = req;
+/**
+*   POST add an article
+*  body:
+*  { 
+*    "text": "<p>dgdgdgdgdgdgdg</p>",
+*    "title": "dfgdgfgdg",
+*    "claps": 0,
+*    "description": "<p>dgdgdgdgdgdgdg</p>...",
+*    "feature_img": "",
+*    "__v": 0,
+*    "author_id": "5b56d160a96e1f3e90e8f372"
+* }
+ */
+router.post('/', articleController.addArticle);
 
-    if (!body.title) {
-        return res.status(422).json({
-            errors: {
-                title: 'is required'
-            }
-        });
-    }
+/**
+ * get all articles
+ */
+router.get('/', articleController.getAll);
 
-    if (!body.author) {
-        return res.status(422).json({
-            errors: {
-                author: 'is required',
-            },
-        });
-    }
+/**
+ * clap on an article
+ */
+router.post('/clap', articleController.clapArticle);
 
-    if (!body.body) {
-        return res.status(422).json({
-            errors: {
-                body: 'is required',
-            },
-        });
-    }
+/**
+*  POST comment on an article
+*  body:
+*  {	
+*     "article_id": "5b56dcea97d92f5ea8ecd969",
+*     "author_id": "5b56d160a96e1f3e90e8f372",
+*     "comment": "Nice post!"
+*  }
+*/
+router.post('/comment', articleController.commentArticle);
 
-    const finalArticle = new Articles(body);
-    return finalArticle.save()
-        .then(() => res.json({
-            article: finalArticle.toJSON()
-        }))
-        .catch(next);
-});
-
-router.get('/', (req, res, next) => {
-    return Articles.find({})
-        .then(articles => {
-            return res.json({
-                articles: articles
-            });
-        })
-        .catch(next)
-});
-
-router.param('id', (req, res, next, id) => {
-    return Articles.findById(id, (err, article) => {
-        if (err) {
-            return res.sendStatus(404);
-        } else if (article) {
-            req.article = article;
-            return next();
-        }
-    }).catch(next);
-});
-
-router.get('/:id', (req, res, next) => {
-    return res.json({
-        article: req.article.toJSON(),
-    });
-});
-
-router.patch('/:id', (req, res, next) => {
-    const {
-        body
-    } = req;
-
-    if (typeof body.title !== 'undefined') {
-        req.article.title = body.title;
-    }
-
-    if (typeof body.author !== 'undefined') {
-        req.article.author = body.author;
-    }
-
-    if (typeof body.body !== 'undefined') {
-        req.article.body = body.body;
-    }
-
-    return req.article.save()
-        .then(() => res.json({
-            article: req.article.toJSON()
-        }))
-        .catch(next);
-});
-
-router.delete('/:id', (req, res, next) => {
-    return Articles.findByIdAndRemove(req.article._id)
-        .then(() => res.sendStatus(200))
-        .catch(next);
-});
+/**
+ * get a particlular article to view
+ */
+router.get('/:id', articleController.getArticle);
 
 module.exports = router;
