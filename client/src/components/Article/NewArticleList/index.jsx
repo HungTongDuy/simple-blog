@@ -16,6 +16,7 @@ class NewArticleList extends React.Component {
             <div>
             { articles == undefined ? '' : 
                 articles.map((article, key) => {
+                    console.log('article-new', article);
                     return (
                         <Card className="card streamItem" key={key}>
                             <CardContent className="extremePostPreview">
@@ -24,8 +25,8 @@ class NewArticleList extends React.Component {
                                         <h3 className="title">{article.title}</h3>
                                     </div>
                                     <div className="card-body">
-                                        {article.description}
-                                        <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
+                                        {article.text}
+                                        <p className="mt-5 text-muted"><b>{article.author.name}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                                     </div>
                                     <div className="card-footer">
                                         <div className="row">

@@ -1,11 +1,17 @@
-// @import url('https://fonts.googleapis.com/css?family=Nunito|Poppins:500|Open+Sans');
-// @import "~bootstrap/scss/bootstrap";
+//@import url('https://fonts.googleapis.com/css?family=Nunito|Poppins:500|Open+Sans');
+//@import "~bootstrap/scss/bootstrap";
 body,
 html {
     height: 100%;
     background-color: rgba(0, 0, 0, .018);
     color: rgba(0, 0, 0, .75);
     font-family: 'Nunito';
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background-color: #ffffff;
+    margin: 0!important;
 }
 .container {
     max-width: 1032px;
@@ -29,8 +35,17 @@ html {
     text-align: center;
 }
 .header {
-    text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+
+    position: -webkit-sticky;
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1030;
+    background-color: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,.1);
+    height: 60px;
 }
 .extremePostPreview-image {
     float: right;
@@ -128,10 +143,78 @@ html {
     float: left;
     height: 100%;
     width: 100%;
+    margin-top: 10px;
 }
 .extremeHero-titleClamp {
     overflow: hidden;
 }
 .extremeHero-content {
     height: 60px;
+}
+.sign-in-button {
+    margin-top: 5px;
+    margin-right: 10px;
+    float: right;
+}
+.header-logo {
+    width: 20%;
+    display: inline-block;
+}
+.header-account {
+    width: 20%;
+    display: inline-block;
+    margin-top: 5px;
+}
+.js-metabarLogoCentered {
+    width: 100%;
+    float: left;
+    display: flex;
+    margin-top: 10px;
+}
+.menu.header-menu {
+    width: 60%;
+    display: inline-block;
+    margin-top: 5px;
+}
+svg.svgIcon-use {
+    margin-top: 5px;
+}
+.sign-in-button .button {
+    padding: 0.6em 1em 0.7em 1em;
+}
+.button.green-border-button {
+    color: #00ab6b !important;
+    border-color: #00ab6b;
+    background-color: #fff;
+}
+.button {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 0.6em 1em 0.7em 1em;
+    border-radius: 20px;
+    text-decoration: none;
+    color: rgba(0,0,0,0.6);
+    font-size: 14px;
+    outline: none;
+    -webkit-transition: all .1s;
+    -o-transition: all .1s;
+    transition: all .1s;
+}
+.extremePostPreview .title {
+    font-size: 18px !important;
+}
+.extremePostPreview {
+    display: flex;
+    float: left;
+    width: 100%;
+}
+p.mt-5.text-muted {
+    display: block;
+    float: left;
+}
+.extremeHero-byline {
+    margin-top: 10px; 
+}
+.extremeHero-byline p {
+    margin-top: 5px;
+    margin-bottom: 0;
 }

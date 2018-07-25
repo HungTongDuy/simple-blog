@@ -1,7 +1,7 @@
-import React, { NewLifecycle } from 'react';
+import React from 'react';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class FeaturedArticleList extends React.Component {
 
@@ -12,28 +12,29 @@ class FeaturedArticleList extends React.Component {
     render() {
         let numberOfItemDisplay = 4;
         let articles = this.props.articles;
+        console.log('articles', articles);
         if ((articles != undefined) || (articles != null)) {
             articles = articles.slice(0, numberOfItemDisplay);
             return (
                 <div>               
-                    <Grid item className="extremeHero-largeCard js-trackedPost" xs={8}>
+                    <Grid item className="extremeHero-largeCard js-trackedPost" xs={7}>
                         <div className="extremeHero-post">
                             <Link to="/article/post-demo-tile-demo-demo"><img src="https://cdn-images-1.medium.com/max/1600/0*2mHsgB-JH_yxlRev.png" /></Link>
                             <div className="extremeHero-postContent">
                                 <div className="extremeHero-titleClamp">
                                     <h3 className="title">{articles[0].title}</h3>
                                     <div className="content">
-                                        {articles[0].body.substr(0, 80) + '...'}
+                                        {articles[0].text.substr(0, 80) + '...'}
                                     </div>
                                 </div>
                                 <div className="extremeHero-byline">
-                                    <p><b>{articles[0].author}</b> </p>
+                                    <p><b>{articles[0].author.name}</b> </p>
                                     <p>{moment(new Date(articles[0].createdAt)).fromNow()}</p>
                                 </div>
                             </div>
                         </div>
                     </Grid>
-                    <Grid item className="extremeHero-smallCardContainer" xs={4}>
+                    <Grid item className="extremeHero-smallCardContainer" xs={5}>
                         {articles.map((article, key) => {
                             if(key != 0) {
                                 return (
@@ -47,8 +48,9 @@ class FeaturedArticleList extends React.Component {
                                                     <h3 className="title">{article.title}</h3>
                                                 </div>
                                                 <div className="extremeHero-content">
-                                                    {article.description.substr(0, 50) + ' ...'}
-                                                    <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
+                                                    {article.text.substr(0, 50) + ' ...'}
+                                                    <p className="mt-5 text-muted">{article.author.name}</p>
+                                                    <p>{moment(new Date(article.createdAt)).fromNow()}</p>
                                                 </div>
                                             </Grid>
                                         </div>
