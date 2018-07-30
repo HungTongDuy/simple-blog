@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NewArticleList, FeaturedArticleList } from '../../components/Article';
-import { HOME_PAGE_LOADED, DELETE_ARTICLE, SET_EDIT, HOST, PORT } from '../../../constants';
+import { HOME_PAGE_LOADED, DELETE_ARTICLE, SET_EDIT, API_ARTICLE_URL } from '../../../core/constants';
 import Grid from '@material-ui/core/Grid';
 
 class Home extends React.Component {
@@ -17,7 +17,7 @@ class Home extends React.Component {
     componentWillMount() {
         const { onLoad } = this.props;
         
-        axios.get(`http://${HOST}:${PORT}/api/articles/`)
+        axios.get(API_ARTICLE_URL)
         .then((res) => {
             console.log('res.data', res.data);
             onLoad(res.data)
@@ -27,7 +27,7 @@ class Home extends React.Component {
     handleDelete(id) {
         const { onDelete } = this.props;
 
-        return axios.delete(`http://${HOST}:${PORT}/api/articles/${id}`)
+        return axios.delete(API_ARTICLE_URL + id)
         .then(() => onDelete(id));
     }
 

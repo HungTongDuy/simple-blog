@@ -1,9 +1,13 @@
 import React from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-import { Home,  ArticleDetail, Editor, Header } from '../../components';
+import { Header, ArticleDetail, Editor } from './components';
+import Home from './screens/Home';
+import AddArticle from './screens/Article/AddArticle/AddArticle';
 
-const App = (props) => {
+
+const App = () => {
+    console.log('app.js');
     return (
         <div>
             <Header />
@@ -12,7 +16,7 @@ const App = (props) => {
                     <Route exact path="/" component={Home} />
                     <Route path="/article/:title-and-2018-:id" component={ArticleDetail} />
                     <Route path="/categories" />
-                    <Route path="/article/editor" component={Editor} />
+                    <Route path="/article/editor" component={AddArticle} />
                 </Switch>
             </div>
         </div>

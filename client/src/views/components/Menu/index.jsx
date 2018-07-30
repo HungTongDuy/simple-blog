@@ -25,7 +25,7 @@ class Menu extends React.Component{
 
     handleToggle() {
         this.setState(state => ({ open: !state.open }));
-      };
+    };
     
     handleClose(event) {
         if (this.anchorEl.contains(event.target)) {
@@ -46,9 +46,8 @@ class Menu extends React.Component{
                     }}
                     aria-owns={open ? 'menu-list-grow' : null}
                     aria-haspopup="true"
-                    onClick={this.handleToggle}
                 >
-                    Home
+                    <Link to="/">Home</Link>
                 </Button>
                     <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
                         {({ TransitionProps, placement }) => (

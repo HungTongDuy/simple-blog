@@ -4,12 +4,12 @@ import createHistory from 'history/createBrowserHistory';
 import { Route, Switch, Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import store from './store';
-import { App } from './components';
+import store from './core/store';
+import App from './views/app';
 
 import '../resources/scss/style.scss';
 
-ReactDOM.render( 
+ReactDOM.render(
     <Router history={createHistory()}>
         <Provider store={store}>
             <Switch>

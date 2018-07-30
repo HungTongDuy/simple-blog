@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { SUBMIT_ARTICLE, EDIT_ARTICLE, HOST, PORT } from '../../../constants';
+import { SUBMIT_ARTICLE, EDIT_ARTICLE, API_ARTICLE_URL } from '../../../core/constants';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -31,7 +31,7 @@ class Form extends React.Component {
         const { onSubmit, articleToEdit, onEdit } = this.props;
 
         if(!articleToEdit) {
-            return axios.post(`http://${HOST}:${PORT}/api/articles/`, { title, body, author })
+            return axios.post(API_ARTICLE_URL, { title, body, author })
             .then((res) => {
                 console.log('response', res);
                 if (res.status == 200) {
@@ -44,7 +44,7 @@ class Form extends React.Component {
             })
             .then(() => this.setState({ title: '', body: '', author: '' }));
         } else {
-            return axios.patch(`http://${HOST}:${PORT}/api/articles/${articleToEdit._id}`, { title, body, author })
+            return axios.patch(API_ARTICLE_URL + articleToEdit._id, { title, body, author })
             .then((res) => onEdit(res.data))
             .then(() => this.setState({ title: '', body: '', author: '' }));
         }

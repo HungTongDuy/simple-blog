@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import MediumEditor from 'medium-editor'
 
-import { SUBMIT_ARTICLE, EDIT_ARTICLE, HOST, PORT } from '../../../../constants';
+import './AddArticle.css';
+
+import { SUBMIT_ARTICLE, EDIT_ARTICLE, API_ARTICLE_URL } from '../../../../core/constants';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 class Form extends React.Component {
@@ -33,7 +34,7 @@ class Form extends React.Component {
         const { onSubmit, articleToEdit, onEdit } = this.props;
 
         if(!articleToEdit) {
-            return axios.post(`http://${HOST}:${PORT}/api/articles/`, { title, body, author })
+            return axios.post(API_ARTICLE_URL, { title, body, author })
             .then((res) => {
                 console.log('response', res);
                 if (res.status == 200) {
@@ -46,7 +47,7 @@ class Form extends React.Component {
             })
             .then(() => this.setState({ title: '', body: '', author: '' }));
         } else {
-            return axios.patch(`http://${HOST}:${PORT}/api/articles/${articleToEdit._id}`, { title, body, author })
+            return axios.patch(API_ARTICLE_URL + articleToEdit._id, { title, body, author })
             .then((res) => onEdit(res.data))
             .then(() => this.setState({ title: '', body: '', author: '' }));
         }
@@ -96,6 +97,64 @@ class Form extends React.Component {
         console.log("afterPaste event called with event info: ", evt);
     }
 
+    componentDidMount () {
+        const editor = new MediumEditor(/*dom, */".medium-editable",{
+            autoLink: true,
+            delay: 1000,
+            targetBlank: true,
+            toolbar: {
+                buttons: [
+                    'bold', 
+                    'italic', 
+                    'quote', 
+                    'underline', 
+                    'anchor', 
+                    'h1',
+                    'h2', 
+                    'h3',
+                    'h4',
+                    'h5',
+                    'h6',
+                    'strikethrough',
+                    'subscript',
+                    'superscript',
+                    'pre',
+                    'image',
+                    'html',
+                    'justifyCenter'
+                ],
+                diffLeft: 25,
+                diffTop: 10,
+            },
+            anchor: {
+                placeholderText: 'Type a link',
+                customClassOption: 'btn',
+                customClassOptionText: 'Create Button'
+            },
+            paste: {
+                cleanPastedHTML: true,
+                cleanAttrs: ['style', 'dir'],
+                cleanTags: ['label', 'meta'],
+                unwrapTags: ['sub', 'sup']
+            },
+            anchorPreview: {
+                hideDelay: 300
+            },
+            placeholder: {
+                text: 'Tell your story...'
+            }
+        })
+        editor.subscribe('editableInput', (ev, editable) => {
+            if(typeof document !== 'undefined') {
+                this.setState({
+                    title: document.getElementById('editor-title').value,
+                    text: editor.getContent(0),
+                    description: `${editor.getContent(0).substring(0,30).toString()}...`
+                })
+            }
+        })
+    }
+
     render() {
         const { title, body, author, isSubmitSuccess } = this.state;
         const { articleToEdit } = this.props;
@@ -106,24 +165,26 @@ class Form extends React.Component {
                 <Grid container spacing={24}>
                     <Grid item xs={12} sm={12}>
                         <Grid item xs={12} sm={12}>
-                            <Input
+                            {/* <Input
                                 placeholder="Article Title"
                                 inputProps={{
                                     'aria-label': 'Description',
                                 }}
                                 onChange={(e) => this.handleChangeField('title', e)}
                                 value={title}
-                            />
+                            /> */}
+                            <textarea col="1" className="editor-title" id="editor-title" placeholder="Title"></textarea>
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            <TextField 
+                            {/* <TextField 
                                 placeholder="Article Description"
                                 onChange={(e) => this.handleChangeField('body', e)}
                                 value={body}
                                 multiline={true}
                                 rows={8}
                                 rowsMax={40}
-                            />
+                            /> */}
+                            <textarea id="medium-editable" className="medium-editable" ></textarea>
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <Input
@@ -135,17 +196,11 @@ class Form extends React.Component {
                                 value={author}
                             />
                         </Grid>
-                        {/* <Grid item xs={12} sm={12}>
-                            <CKEditor 
-                                activeClass="p10" 
-                                content={this.state.content} 
-                                events={{
-                                    "blur": this.onBlur,
-                                    "afterPaste": this.afterPaste,
-                                    "change": this.onChange
-                                }}
-                                />
-                        </Grid> */}
+                        <Grid item xs={12} sm={12}>
+                            <div className="hidden">
+                                <input type="file" onChange={ ()=>this.previewImg()} id="file" ref="fileUploader"/>
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <div className="col-12 col-lg-6 offset-lg-3">
