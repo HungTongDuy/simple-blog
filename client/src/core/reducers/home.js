@@ -1,4 +1,4 @@
-import { HOME_PAGE_LOADED, DELETE_ARTICLE, SET_EDIT, SUBMIT_ARTICLE, EDIT_ARTICLE } from '../constants';
+import { HOME_PAGE_LOADED, DELETE_ARTICLE, SET_EDIT, SUBMIT_ARTICLE, EDIT_ARTICLE, SET_USER } from '../constants';
 
 export default ( state = {}, action ) => {
     switch(action.type) {
@@ -39,7 +39,7 @@ export default ( state = {}, action ) => {
                     return article;
                 }),
                 articleToEdit: undefined
-            }    
+            }
 
         default:
             return state;

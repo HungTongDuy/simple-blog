@@ -1,0 +1,9 @@
+.hidden {
+    display: none;
+}
+.editor-article-container {
+    margin: 0 auto!important;
+}
+#image_preview {
+    width: 100%;
+}

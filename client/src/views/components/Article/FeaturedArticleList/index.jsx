@@ -19,7 +19,7 @@ class FeaturedArticleList extends React.Component {
                 <div>               
                     <Grid item className="extremeHero-largeCard js-trackedPost" xs={7}>
                         <div className="extremeHero-post">
-                            <Link to="/article/post-demo-tile-demo-demo"><img src="https://cdn-images-1.medium.com/max/1600/0*2mHsgB-JH_yxlRev.png" /></Link>
+                            <Link to="/article/post-demo-tile-demo-demo"><img src={articles[0].feature_img} title={articles[0].title} /></Link>
                             <div className="extremeHero-postContent">
                                 <div className="extremeHero-titleClamp">
                                     <h3 className="title">{articles[0].title}</h3>
@@ -41,7 +41,7 @@ class FeaturedArticleList extends React.Component {
                                     <div className="card streamItem" key={key}>
                                         <div className="extremePostPreview">
                                             <Grid item className="extremeHero-image" xs={4}>
-                                                <img src="https://cdn-images-1.medium.com/max/1600/0*2mHsgB-JH_yxlRev.png" />
+                                                <img src={article.feature_img} title={article.title}/>
                                             </Grid>
                                             <Grid item className="extremeHero-postContent" xs={8}>
                                                 <div className="extremeHero-titleClamp">

@@ -16,6 +16,8 @@ export const SUBMIT_ARTICLE = 'SUBMIT_ARTICLE';
 
 export const EDIT_ARTICLE = 'EDIT_ARTICLE';
 
+export const SET_USER = 'SET_USER';
+
 //=========================================================
 //  SERVER
 //---------------------------------------------------------
@@ -32,3 +34,8 @@ export const API_ARTICLE_URL = `${API_BASE_URL}/api/articles/`;
 
 export const API_ARTICLE_EDITOR_URL = `${API_BASE_URL}/api/article/editor/`;
 
+export const API_SIGNIN_URL = `${API_BASE_URL}/api/user/signin/`;
+
+export const API_USER_URL = `${API_BASE_URL}/api/user/`;
+
+export const API_USER_FOLLOW_URL = `${API_BASE_URL}/api/user/follow/`;

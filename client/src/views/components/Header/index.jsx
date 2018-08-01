@@ -1,5 +1,6 @@
 import React from 'react';
 import Menu from '../../components/Menu';
+import { Link } from 'react-router-dom';
 
 class Header extends React.Component {
 
@@ -22,7 +23,7 @@ class Header extends React.Component {
                         </div>
                         <div className="header-account">
                             <div className="sign-in-button">
-                                <a className="button green-border-button" data-behavior="trigger-overlay" href="#">Sign in / Sign up</a>
+                                <Link to="/signin" className="button green-border-button">Sign in</Link>
                             </div>
                         </div>
                     </div>

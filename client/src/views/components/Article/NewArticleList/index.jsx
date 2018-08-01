@@ -46,7 +46,7 @@ class NewArticleList extends React.Component {
                                     </div>
                                 </Grid>
                                 <Grid item className="extremePostPreview-image" xs={4}>
-                                    <img src="https://cdn-images-1.medium.com/fit/c/152/156/0*2mHsgB-JH_yxlRev.png" />
+                                    <img src={article.feature_img} title={article.title} />
                                 </Grid>
                             </CardContent>
                         </Card>

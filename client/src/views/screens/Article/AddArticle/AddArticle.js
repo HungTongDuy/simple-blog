@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import MediumEditor from 'medium-editor'
 
 import './AddArticle.css';
 
@@ -10,23 +9,49 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button';
+
+// Require Editor JS files.
+import 'froala-editor/js/froala_editor.pkgd.min.js';
+
+// Require Editor CSS files.
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+
+// Require Font Awesome.
+import 'font-awesome/css/font-awesome.css';
+
+import FroalaEditor from 'react-froala-wysiwyg';
+
+const config = {
+    placeholderText: 'Edit Your Content Here!',
+    charCounterCount: false
+}
 
 class Form extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            title: '',
-            body: '',
-            author: '',
+
             isSubmitSuccess: false,
-            content: 'content',
+
+            title: '',
+            text: '',
+            description: '',
+            imgSrc: null,
+            loading: false
         }
 
-        this.handleChangeField = this.handleChangeField.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onClickClose = this.onClickClose.bind(this);
         this.updateContent = this.updateContent.bind(this);
+        this.handleModelChange = this.handleModelChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.previewImg = this.previewImg.bind(this);
+        this.publishStory = this.publishStory.bind(this);
+        this.handleChangeTitle = this.handleChangeTitle.bind(this);
     }
 
     handleSubmit() {
@@ -53,9 +78,11 @@ class Form extends React.Component {
         }
     }
 
-    handleChangeField(key, event) {
+    handleModelChange(model) {
+        console.log('handleModelChange', model);
         this.setState({
-            [key]: event.target.value
+            text: model,
+            description: `${model.substring(0,30).toString()}...`
         });
     }
 
@@ -97,103 +124,74 @@ class Form extends React.Component {
         console.log("afterPaste event called with event info: ", evt);
     }
 
-    componentDidMount () {
-        const editor = new MediumEditor(/*dom, */".medium-editable",{
-            autoLink: true,
-            delay: 1000,
-            targetBlank: true,
-            toolbar: {
-                buttons: [
-                    'bold', 
-                    'italic', 
-                    'quote', 
-                    'underline', 
-                    'anchor', 
-                    'h1',
-                    'h2', 
-                    'h3',
-                    'h4',
-                    'h5',
-                    'h6',
-                    'strikethrough',
-                    'subscript',
-                    'superscript',
-                    'pre',
-                    'image',
-                    'html',
-                    'justifyCenter'
-                ],
-                diffLeft: 25,
-                diffTop: 10,
-            },
-            anchor: {
-                placeholderText: 'Type a link',
-                customClassOption: 'btn',
-                customClassOptionText: 'Create Button'
-            },
-            paste: {
-                cleanPastedHTML: true,
-                cleanAttrs: ['style', 'dir'],
-                cleanTags: ['label', 'meta'],
-                unwrapTags: ['sub', 'sup']
-            },
-            anchorPreview: {
-                hideDelay: 300
-            },
-            placeholder: {
-                text: 'Tell your story...'
-            }
+    previewImg () {
+        const file = this.refs.fileUploader.files[0]
+        var reader = new FileReader()
+        reader.onload = function (e) {
+            document.getElementById('image_preview').src = e.target.result
+            this.setState({
+                imgSrc: file/*e.target.result*/
+            })
+        }.bind(this)
+        reader.readAsDataURL(file)
+    }
+
+    handleClick () {
+        this.refs.fileUploader.click()
+    }
+
+    publishStory () {
+        this.setState({
+            loading: true
         })
-        editor.subscribe('editableInput', (ev, editable) => {
-            if(typeof document !== 'undefined') {
-                this.setState({
-                    title: document.getElementById('editor-title').value,
-                    text: editor.getContent(0),
-                    description: `${editor.getContent(0).substring(0,30).toString()}...`
-                })
-            }
-        })
+        const formdata = new FormData()
+        formdata.append('text', this.state.text)
+        formdata.append('image', this.state.imgSrc)
+        formdata.append('title', this.state.title)
+        // formdata.append('author_id', this.props.user._id)
+        formdata.append('author_id', '5b56d194a96e1f3e90e8f374')
+        formdata.append('description', this.state.description)
+        formdata.append('claps', 0);
+        console.log('formdata', formdata);
+        axios.post(API_ARTICLE_URL, formdata).then((res) => {
+            this.setState({
+                loading: false
+            })
+        }).catch((err)=>{console.log(err); this.setState({loading: false})})
+    }
+
+    handleChangeTitle(e) {
+        console.log('handleChangeTitle', e.target.value);
+        this.setState({
+            title: e.target.value
+        });
     }
 
     render() {
         const { title, body, author, isSubmitSuccess } = this.state;
         const { articleToEdit } = this.props;
         console.log('isSubmitSuccess', isSubmitSuccess);
+        console.log('loading', this.state.loading);
 
         return (
             <CardContent>
-                <Grid container spacing={24}>
+                <Grid container spacing={24} item xs={8} sm={8} className="editor-article-container">
                     <Grid item xs={12} sm={12}>
                         <Grid item xs={12} sm={12}>
-                            {/* <Input
-                                placeholder="Article Title"
-                                inputProps={{
-                                    'aria-label': 'Description',
-                                }}
-                                onChange={(e) => this.handleChangeField('title', e)}
-                                value={title}
-                            /> */}
-                            <textarea col="1" className="editor-title" id="editor-title" placeholder="Title"></textarea>
+                            <TextField
+                                id="with-placeholder"
+                                label="Title"
+                                placeholder="Title"
+                                className="textField"
+                                margin="normal"
+                                onChange={this.handleChangeTitle}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            {/* <TextField 
-                                placeholder="Article Description"
-                                onChange={(e) => this.handleChangeField('body', e)}
-                                value={body}
-                                multiline={true}
-                                rows={8}
-                                rowsMax={40}
-                            /> */}
-                            <textarea id="medium-editable" className="medium-editable" ></textarea>
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <Input
-                                inputProps={{
-                                    'aria-label': 'Description',
-                                }}
-                                placeholder="Article Author"
-                                onChange={(e) => this.handleChangeField('author', e)}
-                                value={author}
+                            <FroalaEditor 
+                                tag='textarea'
+                                config={config}
+                                onModelChange={this.handleModelChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12}>
@@ -201,10 +199,34 @@ class Form extends React.Component {
                                 <input type="file" onChange={ ()=>this.previewImg()} id="file" ref="fileUploader"/>
                             </div>
                         </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <span className="picture_upload">
+                                <i className="fa fa-camera" onClick={this.handleClick}></i>
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <div className={this.state.imgSrc != null ? 'file-upload-previewer' : 'file-upload-previewer hidden'}>
+                                <img src="" alt="" id="image_preview"/>
+                            </div>
+                            <div className="existing-img-previewer" id="existing-img-previewer">
+                            </div>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                        <Button 
+                            onClick={this.publishStory} 
+                            variant="contained" 
+                            className="btn btn-primary float-right signin-button" 
+                            color="primary" >
+                            Publish
+                        </Button>
+                        { !this.state.loading ? '' :
+                            <LinearProgress />
+                        }
                     </Grid>
                 </Grid>
+
                 <div className="col-12 col-lg-6 offset-lg-3">
-                    <button onClick={this.handleSubmit} className="btn btn-primary float-right">Submit</button>
                     { !isSubmitSuccess ? '' : 
                         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div className="modal-dialog modal-dialog-centered" role="document">

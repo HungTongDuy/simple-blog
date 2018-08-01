@@ -1,13 +1,16 @@
 const path = require('path');
 const express = require('express')
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const cors = require('cors');
 const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary');
 
-const { databaseLocal, cloud_name, api_key, api_secret  } = require('./config');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
+const { DATABASE_LOCAL, CLOUD_NAME, API_KEY, API_SECRET } = require('./config');
 
 const port = process.env.PORT || 8000;
 
@@ -34,19 +37,19 @@ app.use(session({
 }));
 
 cloudinary.config({
-    cloud_name: cloud_name,
-    api_key: api_key,
-    api_secret: api_secret
+    cloud_name: CLOUD_NAME,
+    api_key: API_KEY,
+    api_secret: API_SECRET
 })
 
 if (!isProduction) {
     app.use(errorHandler());
 }
 
-//mongoose.connect(databaseLocal, { useNewUrlParser: true });
-//mongoose.connect(databaseLocal);
+//mongoose.connect(DATABASE_LOCAL, { useNewUrlParser: true });
+//mongoose.connect(DATABASE_LOCAL);
 
-mongoose.connect(databaseLocal, {
+mongoose.connect(DATABASE_LOCAL, {
     //useMongoClient: true,
     useNewUrlParser: true
 });
@@ -58,6 +61,7 @@ mongoose.set('debug', true);
 // Add models
 require('./models/Article');
 require('./models/User');
+require('./models/UsersPasswords');
 // Add routes
 app.use(require('./routes'));
 
@@ -90,5 +94,73 @@ app.use((err, req, res) => {
         },
     });
 });
+
+app.all('/*', function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin: *');
+    res.setHeader('Access-Control-Allow-Credentials: true');
+    res.setHeader('Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers: accept, content-type, x-xsrf-token, x-csrf-token, authorization');
+    if (req.method == 'OPTIONS') {
+        res.status(200).end();
+    } else {
+        next();
+    }
+});
+
+// **************
+//  passport
+// **************
+app.use(session({
+    secret: "secret",
+    saveUninitialized: true,
+    resave: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const User = mongoose.model('User');
+const UsersPasswords = mongoose.model('UsersPasswords');
+const passwordHash = require('password-hash');
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id).then((user)=> {
+        done(null, user);         
+    }).catch((err) => {
+        console.log(err);
+    })
+    // db.user.findById(id).then(function (user) {
+    //     done(null, user);
+    // }).catch(function (err) {
+    //     console.log(err);
+    // })
+});
+
+passport.use('local.signin', new LocalStrategy(
+    {
+        usernameField: "email",
+        passwordField: "password",
+        passReqToCallback: true
+    },
+    (email, password, done) => {
+        console.log('authen');
+        User.find({ email : email })
+        .then((user)=> {
+            console.log('userInfo-------------------', user);
+            if(!passwordHash.verify(password, user.password)) {
+                return done(null, false, { message: 'Incorrect email and password' });
+            } else {
+                return done(null, user);
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+))
+
 
 const server = app.listen(port, () => console.log('Server started on http://localhost:' + port));

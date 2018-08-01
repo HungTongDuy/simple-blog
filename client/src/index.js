@@ -8,6 +8,9 @@ import store from './core/store';
 import App from './views/app';
 
 import '../resources/scss/style.scss';
+if(!localStorage.Auth) {
+    console.log('localStorage.Auth', localStorage);
+}
 
 ReactDOM.render(
     <Router history={createHistory()}>

@@ -1,38 +1,38 @@
 const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
-const User = mongoose.model('User');
 const fs = require('fs')
 const cloudinary = require('cloudinary')
 module.exports = {
     addArticle: (req, res, next) => {
-        let { text, title, claps, description } = req.body
-        if (req.files != undefined && req.files.image) {
-            cloudinary.uploader.upload(req.files.image.path, (result) => {
-                let obj = { text, title, claps, description, feature_img: result.url != null ? result.url : '' }
-                saveArticle(obj)
-            },{
-                resource_type: 'image',
-                eager: [
-                    {effect: 'sepia'}
-                ]
-            })
-        } else {
-            saveArticle({ text, title, claps, description, feature_img: '' })
-        }
-        function saveArticle(obj) {
-            new Article(obj).save((err, article) => {
-                if (err)
-                    res.send(err)
-                else if (!article)
-                    res.send(400)
-                else {
-                    return article.addAuthor(req.body.author_id).then((_article) => {
-                        return res.send(_article)
-                    })
-                }
-                next()
-            })
-        }
+        console.log('req.body', req.body);
+        // let { text, title, claps, description } = req.body
+        // if (req.files != undefined && req.files.image) {
+        //     cloudinary.uploader.upload(req.files.image.path, (result) => {
+        //         let obj = { text, title, claps, description, feature_img: result.url != null ? result.url : '' }
+        //         saveArticle(obj)
+        //     },{
+        //         resource_type: 'image',
+        //         eager: [
+        //             {effect: 'sepia'}
+        //         ]
+        //     })
+        // } else {
+        //     saveArticle({ text, title, claps, description, feature_img: '' })
+        // }
+        // function saveArticle(obj) {
+        //     new Article(obj).save((err, article) => {
+        //         if (err)
+        //             res.send(err)
+        //         else if (!article)
+        //             res.send(400)
+        //         else {
+        //             return article.addAuthor(req.body.author_id).then((_article) => {
+        //                 return res.send(_article)
+        //             })
+        //         }
+        //         next()
+        //     })
+        // }
     },
     getAll: (req, res, next) => {
         console.log('getAll', req.params.id);

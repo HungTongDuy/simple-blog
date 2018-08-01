@@ -42,4 +42,16 @@ router.post('/', userController.addUser);
  */
 router.post('/follow', userController.followUser);
 
+/**
+ * add user passwords
+ */
+router.post('/password', userController.addUserPassword);
+
+/**
+ * get user passwords
+ */
+router.get('/password/:id', userController.getUserPassword);
+
+router.post('/signin', userController.signIn);
+
 module.exports = router;
