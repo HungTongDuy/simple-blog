@@ -20,15 +20,16 @@ module.exports = {
                             return res.send(err)
                         else if (!newUser)
                             return res.send(400)
-                        else
+                        else {
+                            console.log('newUser');
                             return res.send(newUser)
+                        }
                     });
-                    next()
                 } else {
-                    console.log('user-409')
+                    console.log('user-409');
                     res.status(200).send(user[0]);
                 }
-                next()      
+                //next()      
             })
         } else {
             console.log('none provider_id');
@@ -42,7 +43,6 @@ module.exports = {
                     res.send(400)
                 else
                     res.send(newUser)
-                next()
             });
         }
     },

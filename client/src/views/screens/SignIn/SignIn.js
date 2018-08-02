@@ -23,10 +23,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { Redirect } from 'react-router-dom'
 
-import { API_SIGNIN_URL, API_USER_URL } from '../../../core/constants';
+import { API_SIGNIN_URL, API_USER_URL, TOGGLE_DIALOG_SIGNIN, SET_USER } from '../../../core/constants';
 
 import GoogleLogin from 'react-google-login';
-
+import FacebookLogin from 'react-facebook-login';
 
 class SignIn extends React.Component {
 
@@ -48,6 +48,7 @@ class SignIn extends React.Component {
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.submitSignIn = this.submitSignIn.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.componentClicked = this.componentClicked.bind(this);
     }
 
     handleChangePassword(e) {
@@ -94,16 +95,19 @@ class SignIn extends React.Component {
 
     handleClose(){
         this.setState({ open: false });
-    };
+    }
+
+    componentClicked(e) {
+        console.log('e.target', e.target);
+    }
 
     render() {
         //console.log('authUser', this.props.authUser);
-        if (this.state.redirect) {
-            return <Redirect to="/" />
-        }
-        const { SignInUser, SignUpUser } = this.props;
+        // if (this.state.redirect) {
+        //     return <Redirect to="/" />
+        // }
+        const { SignUpUser, toggleClose } = this.props;
         const responseGoogle = (res) => {
-            console.log('resGoodle', res.profileObj);
             let postData = {
                 name: res.w3.ig,
                 provider: 'google',
@@ -114,16 +118,22 @@ class SignIn extends React.Component {
             }
             console.log(postData);
             SignUpUser(postData);
+            toggleClose();
             // build our user data
             //this.props.SignInUser(postData)
             //this.props.toggleClose()
         }
+
+        const responseFacebook = (response) => {
+            console.log('res-facebook', response);
+        }
+
         return(
             <CardContent>
-                <Grid container spacing={24} item xs={4} sm={4} className="signin-container">
-                    <Grid item xs={12} sm={12}>
+                <Grid container spacing={24} item xs={8} sm={8} className="signin-container">
+                    {/* <Grid item xs={12} sm={12}>
                         <h2 className="signin-title">SignIn</h2>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12} sm={12}>
                         <TextField
                             id="with-placeholder"
@@ -189,6 +199,16 @@ class SignIn extends React.Component {
                         </button> */}
                     </Grid>
                     <Grid item xs={12} sm={12} className="signin-grid-button">
+                        <FacebookLogin
+                            appId="308747443230320"
+                            autoLoad={true}
+                            fields="name,email,picture"
+                            className="google"
+                            onClick={this.componentClicked}
+                            callback={responseFacebook} 
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} className="signin-grid-button">
                         <Button 
                             onClick={this.submitSignIn} 
                             variant="contained" 
@@ -226,40 +246,23 @@ class SignIn extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
     SignInUser: data => {console.log('SignInUser', data); /*dispatch({ type: SUBMIT_ARTICLE, data })*/},
+    toggleClose: data => {dispatch({ type: TOGGLE_DIALOG_SIGNIN })},
     SignUpUser: data => {
         //data.push({password : ''});
-        console.log('SignUpUser', data);
-        localStorage.setItem('Auth', JSON.stringify(data));
-        console.log('localStorage', localStorage.Auth);
-        
-        /*dispatch({ type: SUBMIT_ARTICLE, data })*/
+        //console.log('SignUpUser', data);
         axios.post(API_USER_URL, data).then((res) => {
-            console.log('res', res);
-
-            // if(res.data.hasOwnProperty('provider_id')) {
-
-            // }
-            // if (res.data == true) {
-            //     this.setState({
-            //         loading: false,
-            //         redirect: true
-            //     });
-            // } else {
-            //     this.setState({
-            //         loading: false,
-            //         open: true
-            //     });
-            // }
-
+            let user = res.data;
+            localStorage.setItem('Auth', JSON.stringify(user));
+            dispatch({type: SET_USER, user});
         }).catch((err)=>{console.log(err);})
     }
 });
 
 const mapStateToProps = state => {
-    console.log('state', state);
     return {
         articleToEdit: state.home.articleToEdit,
-        authUser: state.authUser
+        authUser: state.authUser,
+        common: state.common
     }
 };
 

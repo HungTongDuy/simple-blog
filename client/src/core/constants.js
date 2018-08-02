@@ -18,6 +18,10 @@ export const EDIT_ARTICLE = 'EDIT_ARTICLE';
 
 export const SET_USER = 'SET_USER';
 
+export const TOGGLE_DIALOG_SIGNIN = 'TOGGLE_DIALOG_SIGNIN';
+
+export const CLEAR_USER = 'CLEAR_USER';
+
 //=========================================================
 //  SERVER
 //---------------------------------------------------------

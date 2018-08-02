@@ -19,7 +19,6 @@ class Home extends React.Component {
         
         axios.get(API_ARTICLE_URL)
         .then((res) => {
-            console.log('res.data', res.data);
             onLoad(res.data)
         });
     }
@@ -39,7 +38,6 @@ class Home extends React.Component {
 
     render() {
         let { articles } = this.props;
-        console.log('articles', this.props);
         return (
             <div>
                 <div className="homeTopStream">

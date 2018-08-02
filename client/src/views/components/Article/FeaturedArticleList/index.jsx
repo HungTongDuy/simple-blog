@@ -12,7 +12,7 @@ class FeaturedArticleList extends React.Component {
     render() {
         let numberOfItemDisplay = 4;
         let articles = this.props.articles;
-        console.log('articles', articles);
+        // console.log('articles', articles);
         if ((articles != undefined) || (articles != null)) {
             articles = articles.slice(0, numberOfItemDisplay);
             return (

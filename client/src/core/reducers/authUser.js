@@ -1,4 +1,4 @@
-import { SET_USER } from '../constants';
+import { SET_USER, CLEAR_USER } from '../constants';
 
 const initialState = {
     isAuth: false,
@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export default ( state = initialState, action ) => {
+    console.log('reducers-authUser: ', action);
     switch(action.type) {
         case SET_USER:
             return {
@@ -14,6 +15,13 @@ export default ( state = initialState, action ) => {
                 isAuth: Object.keys(action.user).length > 0 ? true : false,
                 user: action.user,
                 redirect: true
+            }
+
+        case CLEAR_USER:
+            return {
+                ...state,
+                isAuth: false,
+                user: {}
             }
         
         default:

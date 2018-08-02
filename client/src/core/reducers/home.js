@@ -3,7 +3,6 @@ import { HOME_PAGE_LOADED, DELETE_ARTICLE, SET_EDIT, SUBMIT_ARTICLE, EDIT_ARTICL
 export default ( state = {}, action ) => {
     switch(action.type) {
         case HOME_PAGE_LOADED:
-            console.log('action.data.articles', action.data);
             return {
                 ...state,
                 articles: action.data

@@ -8,11 +8,20 @@ import store from './core/store';
 import App from './views/app';
 
 import '../resources/scss/style.scss';
-if(!localStorage.Auth) {
-    console.log('localStorage.Auth', localStorage);
+
+import { SET_USER } from './core/constants';
+
+import { getUser } from './core/actions';
+
+if(localStorage.Auth) {
+    store.dispatch({type: SET_USER, user: JSON.parse(localStorage.Auth)});
+    var _id = JSON.parse(localStorage.Auth)._id;
+    getUser(_id).then((res) => {
+        store.dispatch({ type: SET_USER, user: res });
+    });
 }
 
-ReactDOM.render(
+ReactDOM.render (
     <Router history={createHistory()}>
         <Provider store={store}>
             <Switch>

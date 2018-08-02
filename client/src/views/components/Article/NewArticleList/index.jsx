@@ -16,7 +16,6 @@ class NewArticleList extends React.Component {
             <div>
             { articles == undefined ? '' : 
                 articles.map((article, key) => {
-                    console.log('article-new', article);
                     return (
                         <Card className="card streamItem" key={key}>
                             <CardContent className="extremePostPreview">
