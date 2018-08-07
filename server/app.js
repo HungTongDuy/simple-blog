@@ -10,7 +10,12 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const { DATABASE_LOCAL, CLOUD_NAME, API_KEY, API_SECRET } = require('./config');
+const {
+    DATABASE_LOCAL,
+    CLOUD_NAME,
+    API_KEY,
+    API_SECRET
+} = require('./config');
 
 const port = process.env.PORT || 8000;
 
@@ -35,6 +40,22 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+// **************
+//  passport
+// **************
+// app.use(session({
+//     secret: "secret",
+//     saveUninitialized: true,
+//     resave: true
+// }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// **************
+//  end passport
+// **************
 
 cloudinary.config({
     cloud_name: CLOUD_NAME,
@@ -110,55 +131,49 @@ app.all('/*', function (req, res, next) {
 // **************
 //  passport
 // **************
-app.use(session({
-    secret: "secret",
-    saveUninitialized: true,
-    resave: true
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 const User = mongoose.model('User');
 const UsersPasswords = mongoose.model('UsersPasswords');
 const passwordHash = require('password-hash');
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-    User.findById(id).then((user)=> {
-        done(null, user);         
+passport.deserializeUser(function (id, done) {
+    User.findById(id).then((user) => {
+        done(null, user);
     }).catch((err) => {
         console.log(err);
     })
-    // db.user.findById(id).then(function (user) {
-    //     done(null, user);
-    // }).catch(function (err) {
-    //     console.log(err);
-    // })
 });
 
-passport.use('local.signin', new LocalStrategy(
-    {
+passport.use('local.signin', new LocalStrategy({
         usernameField: "email",
         passwordField: "password",
         passReqToCallback: true
     },
-    (email, password, done) => {
-        console.log('authen');
-        User.find({ email : email })
-        .then((user)=> {
-            console.log('userInfo-------------------', user);
-            if(!passwordHash.verify(password, user.password)) {
-                return done(null, false, { message: 'Incorrect email and password' });
-            } else {
-                return done(null, user);
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
+    (req, email, password, done) => {
+        // console.log('===================');
+        // console.log('email---:', email);
+        // console.log('pass---:', password);
+        User.find({
+                email: email
+            }).then((user) => {
+                console.log('userInfo------', user);
+                if(!user[0]) {
+                    return done(null, false, { message: 'Incorrect email.' });
+                }
+                if (!passwordHash.verify(password, user[0].password)) {
+                    // console.log('Incorrect email and password', user.password);
+                    return done(null, false, { message: 'Incorrect password.' });
+                } else {
+                    // console.log('Correct email and password!!!');
+                    return done(null, user[0]);
+                }
+            }).catch((err) => {
+                console.log('Error: ', err);
+            })
     }
 ))
 

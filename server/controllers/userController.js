@@ -119,26 +119,5 @@ module.exports = {
                 res.send(user)
             next()            
         })
-    },
-    signIn: (req, res, next) => {
-        User.find({ email : req.body.email })
-        .exec((err, user)=> {
-            if (err) {
-                res.send(err);
-            } else {
-                if(user.length > 0) {
-                    if(!passwordHash.verify(req.body.password, user[0].password)) {
-                        console.log('Incorrect email and password');
-                        res.send(false);
-                    } else {
-                        console.log('done!!!');
-                        res.send(true)
-                    }
-                } else {
-                    res.send(false);
-                }
-            }
-            next();
-        })
     }
 }

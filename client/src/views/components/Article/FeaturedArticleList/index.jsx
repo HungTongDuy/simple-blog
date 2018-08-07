@@ -12,7 +12,7 @@ class FeaturedArticleList extends React.Component {
     render() {
         let numberOfItemDisplay = 4;
         let articles = this.props.articles;
-        // console.log('articles', articles);
+        console.log('articles', articles);
         if ((articles != undefined) || (articles != null)) {
             articles = articles.slice(0, numberOfItemDisplay);
             return (
@@ -22,7 +22,7 @@ class FeaturedArticleList extends React.Component {
                             <Link to="/article/post-demo-tile-demo-demo"><img src={articles[0].feature_img} title={articles[0].title} /></Link>
                             <div className="extremeHero-postContent">
                                 <div className="extremeHero-titleClamp">
-                                    <h3 className="title">{articles[0].title}</h3>
+                                    <h3 className="title"><Link to={'/article/' + articles[0]._id }>{articles[0].title}</Link></h3>
                                     <div className="content">
                                         {articles[0].text.substr(0, 80) + '...'}
                                     </div>

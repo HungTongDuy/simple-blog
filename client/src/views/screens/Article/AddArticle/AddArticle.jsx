@@ -1,11 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 
 import './AddArticle.css';
 
-import { SUBMIT_ARTICLE, EDIT_ARTICLE, API_ARTICLE_URL } from '../../../../core/constants';
-import Input from '@material-ui/core/Input';
+import { SUBMIT_ARTICLE, EDIT_ARTICLE } from '../../../../core/constants';
+
+import { onLoadProgress, onSubmitPublish, toggleDialogOpen } from '../../../../core/actions';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
@@ -34,9 +34,7 @@ class Form extends React.Component {
         super(props);
 
         this.state = {
-
             isSubmitSuccess: false,
-
             title: '',
             text: '',
             description: '',
@@ -44,7 +42,7 @@ class Form extends React.Component {
             loading: false
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
         this.onClickClose = this.onClickClose.bind(this);
         this.updateContent = this.updateContent.bind(this);
         this.handleModelChange = this.handleModelChange.bind(this);
@@ -54,29 +52,29 @@ class Form extends React.Component {
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
     }
 
-    handleSubmit() {
-        const { title, body, author } = this.state;
-        const { onSubmit, articleToEdit, onEdit } = this.props;
+    // handleSubmit() {
+    //     const { title, body, author } = this.state;
+    //     const { onSubmit, articleToEdit, onEdit } = this.props;
 
-        if(!articleToEdit) {
-            return axios.post(API_ARTICLE_URL, { title, body, author })
-            .then((res) => {
-                console.log('response', res);
-                if (res.status == 200) {
-                    this.setState({
-                        isSubmitSuccess: true
-                    });
-                    $('#exampleModalCenter').modal('show');
-                }
-                onSubmit(res.data);
-            })
-            .then(() => this.setState({ title: '', body: '', author: '' }));
-        } else {
-            return axios.patch(API_ARTICLE_URL + articleToEdit._id, { title, body, author })
-            .then((res) => onEdit(res.data))
-            .then(() => this.setState({ title: '', body: '', author: '' }));
-        }
-    }
+    //     if(!articleToEdit) {
+    //         return axios.post(API_ARTICLE_URL, { title, body, author })
+    //         .then((res) => {
+    //             console.log('response', res);
+    //             if (res.status == 200) {
+    //                 this.setState({
+    //                     isSubmitSuccess: true
+    //                 });
+    //                 $('#exampleModalCenter').modal('show');
+    //             }
+    //             onSubmit(res.data);
+    //         })
+    //         .then(() => this.setState({ title: '', body: '', author: '' }));
+    //     } else {
+    //         return axios.patch(API_ARTICLE_URL + articleToEdit._id, { title, body, author })
+    //         .then((res) => onEdit(res.data))
+    //         .then(() => this.setState({ title: '', body: '', author: '' }));
+    //     }
+    // }
 
     handleModelChange(model) {
         console.log('handleModelChange', model);
@@ -141,23 +139,22 @@ class Form extends React.Component {
     }
 
     publishStory () {
-        this.setState({
-            loading: true
-        })
-        const formdata = new FormData()
-        formdata.append('text', this.state.text)
-        formdata.append('image', this.state.imgSrc)
-        formdata.append('title', this.state.title)
-        // formdata.append('author_id', this.props.user._id)
-        formdata.append('author_id', '5b56d194a96e1f3e90e8f374')
-        formdata.append('description', this.state.description)
-        formdata.append('claps', 0);
-        console.log('formdata', formdata);
-        axios.post(API_ARTICLE_URL, formdata).then((res) => {
-            this.setState({
-                loading: false
-            })
-        }).catch((err)=>{console.log(err); this.setState({loading: false})})
+        if(localStorage.Auth) {
+            this.props.onLoadProgress(true);
+            let formdata = {
+                text: this.state.text,
+                image: this.state.imgSrc,
+                title: this.state.title,
+                author_id: JSON.parse(localStorage.Auth)._id,
+                description: this.state.description,
+                claps: 0
+            }
+            console.log('formdata', formdata);
+            this.props.onSubmitPublish(formdata);
+        } else {
+            console.log('publishStory-false');
+            this.props.toggleDialogOpen({ signIn: false, signUp: true });
+        }
     }
 
     handleChangeTitle(e) {
@@ -169,12 +166,9 @@ class Form extends React.Component {
 
     render() {
         const { title, body, author, isSubmitSuccess } = this.state;
-        const { articleToEdit } = this.props;
-        console.log('isSubmitSuccess', isSubmitSuccess);
-        console.log('loading', this.state.loading);
 
         return (
-            <CardContent>
+            <CardContent className="add-article-component">
                 <Grid container spacing={24} item xs={8} sm={8} className="editor-article-container">
                     <Grid item xs={12} sm={12}>
                         <Grid item xs={12} sm={12}>
@@ -216,12 +210,12 @@ class Form extends React.Component {
                         <Button 
                             onClick={this.publishStory} 
                             variant="contained" 
-                            className="btn btn-primary float-right signin-button" 
+                            className="btn btn-primary float-right publish-button" 
                             color="primary" >
                             Publish
                         </Button>
-                        { !this.state.loading ? '' :
-                            <LinearProgress />
+                        { !this.props.loadingPublish ? '' :
+                            <LinearProgress className="progress-public green-border-button" />
                         }
                     </Grid>
                 </Grid>
@@ -254,11 +248,15 @@ class Form extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
     onSubmit: data => dispatch({ type: SUBMIT_ARTICLE, data }),
-    onEdit: data => dispatch({ type: EDIT_ARTICLE, data })
+    onEdit: data => dispatch({ type: EDIT_ARTICLE, data }),
+    onLoadProgress: data => dispatch(onLoadProgress(data)),
+    onSubmitPublish: data => dispatch(onSubmitPublish(data)),
+    toggleDialogOpen: data => dispatch(toggleDialogOpen(data))
 });
 
 const mapStateToProps = state => ({
-    articleToEdit: state.home.articleToEdit
+    articleToEdit: state.home.articleToEdit,
+    loadingPublish: state.common.loadingPublish
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

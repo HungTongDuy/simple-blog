@@ -5,3 +5,18 @@ span.picture_upload {
     display: block;
     width: 20%;
 }
+
+.publish-button {
+    background-color: #00ab6b !important;
+}
+
+.green-border-button div {
+    background-color: #00ab6b !important;
+}
+.progress-public {
+    
+}
+
+.add-article-component .textField {
+    width: 100%;
+}

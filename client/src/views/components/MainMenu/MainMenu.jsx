@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { Link } from 'react-router-dom';
 
-class Menu extends React.Component{
+class MainMenu extends React.Component{
     constructor(props) {
         super(props);
 
@@ -104,7 +104,7 @@ class Menu extends React.Component{
                 >
                     Contact
                 </Button>
-                <Button
+                {/* <Button
                     buttonRef={node => {
                     this.anchorEl = node;
                     }}
@@ -112,10 +112,10 @@ class Menu extends React.Component{
                     aria-haspopup="true"
                 >
                     <Link to="/article/editor">New Article</Link>
-                </Button>
+                </Button> */}
             </div>
         );
     }
 }
 
-export default connect()(Menu);
+export default connect()(MainMenu);

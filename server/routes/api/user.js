@@ -52,6 +52,4 @@ router.post('/password', userController.addUserPassword);
  */
 router.get('/password/:id', userController.getUserPassword);
 
-router.post('/signin', userController.signIn);
-
 module.exports = router;

@@ -18,9 +18,13 @@ export const EDIT_ARTICLE = 'EDIT_ARTICLE';
 
 export const SET_USER = 'SET_USER';
 
-export const TOGGLE_DIALOG_SIGNIN = 'TOGGLE_DIALOG_SIGNIN';
+export const TOGGLE_OPEN_DIALOG_SIGNIN = 'TOGGLE_OPEN_DIALOG_SIGNIN';
+
+export const TOGGLE_CLOSE_DIALOG_SIGNIN = 'TOGGLE_CLOSE_DIALOG_SIGNIN';
 
 export const CLEAR_USER = 'CLEAR_USER';
+
+export const PROGRESS_PUBLISH = 'PROGRESS_PUBLISH';
 
 //=========================================================
 //  SERVER
@@ -38,8 +42,10 @@ export const API_ARTICLE_URL = `${API_BASE_URL}/api/articles/`;
 
 export const API_ARTICLE_EDITOR_URL = `${API_BASE_URL}/api/article/editor/`;
 
-export const API_SIGNIN_URL = `${API_BASE_URL}/api/user/signin/`;
+export const API_USER_SIGNIN_URL = `${API_BASE_URL}/api/user/signin/`;
 
 export const API_USER_URL = `${API_BASE_URL}/api/user/`;
 
 export const API_USER_FOLLOW_URL = `${API_BASE_URL}/api/user/follow/`;
+
+export const API_LOGIN_URL = `${API_BASE_URL}/api/signin/`;
