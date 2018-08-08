@@ -1,0 +1,22 @@
+span.picture_upload {
+    margin: 20px 20px;
+    /* margin-top: 20px; */
+    /* padding-top: 20px; */
+    display: block;
+    width: 20%;
+}
+
+.publish-button {
+    background-color: #00ab6b !important;
+}
+
+.green-border-button div {
+    background-color: #00ab6b !important;
+}
+.progress-public {
+    
+}
+
+.add-article-component .textField {
+    width: 100%;
+}

@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require("webpack");
 
 module.exports = {
     entry: [
@@ -46,6 +47,10 @@ module.exports = {
                     }, 'sass-loader'],
                 }),
             },
+            { 
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
+            },
             {
                 test: /\.html$/,
                 use: {
@@ -75,6 +80,10 @@ module.exports = {
             filename: './index.html',
             hash: true,
         }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
     ],
 
     devServer: {
