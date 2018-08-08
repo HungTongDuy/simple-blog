@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const articleController = require('./../../controllers/articleController');
+const multipart = require('connect-multiparty');
+const multipartWare = multipart();
 
 /**
 *   POST add an article
@@ -15,7 +17,7 @@ const articleController = require('./../../controllers/articleController');
 *    "author_id": "5b56d160a96e1f3e90e8f372"
 * }
  */
-router.post('/', articleController.addArticle);
+router.post('/', multipartWare, articleController.addArticle);
 
 /**
  * get all articles
