@@ -1,10 +1,10 @@
 export default ( state = {}, action ) => {
     switch(action.type) {
         case 'HOME_PAGE_LOADED':
-            console.log('action.data.articles', action.data.articles);
+            console.log('action.data.articles', action.data);
             return {
                 ...state,
-                articles: action.data.articles
+                articles: action.data
             };
 
         case 'SUBMIT_ARTICLE':

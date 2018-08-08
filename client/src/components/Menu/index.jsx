@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import { Link } from 'react-router-dom';
 
 class Menu extends React.Component{
     constructor(props) {
@@ -103,6 +104,15 @@ class Menu extends React.Component{
                     aria-haspopup="true"
                 >
                     Contact
+                </Button>
+                <Button
+                    buttonRef={node => {
+                    this.anchorEl = node;
+                    }}
+                    aria-owns={open ? 'menu-list-grow' : null}
+                    aria-haspopup="true"
+                >
+                    <Link to="/article/editor">New Article</Link>
                 </Button>
             </div>
         );
