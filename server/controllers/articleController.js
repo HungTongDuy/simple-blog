@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
-const User = mongoose.model('User');
 const fs = require('fs')
 const cloudinary = require('cloudinary')
 module.exports = {
     addArticle: (req, res, next) => {
+        console.log('req.body', req.body);
         let { text, title, claps, description } = req.body
         if (req.files != undefined && req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, (result) => {
