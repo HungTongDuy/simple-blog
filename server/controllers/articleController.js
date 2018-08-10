@@ -1,14 +1,20 @@
 const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
-const fs = require('fs')
-const cloudinary = require('cloudinary')
+const Counter = mongoose.model('Counter');
+const fs = require('fs');
+const cloudinary = require('cloudinary');
 module.exports = {
     addArticle: (req, res, next) => {
         console.log('req.body', req.body);
-        let { text, title, claps, description } = req.body
+        console.log('req.files', req.files);
+        let { text, title, claps, description } = req.body;
+        let articleId = 3; //getNextSequence('articleId');
         if (req.files != undefined && req.files.image) {
+        //if(req.files.image) {
+            console.log('req.files.image', req.files.image);
             cloudinary.uploader.upload(req.files.image.path, (result) => {
-                let obj = { text, title, claps, description, feature_img: result.url != null ? result.url : '' }
+                console.log('cloudinary.uploader.result: ', result);
+                let obj = { articleId, text, title, claps, description, feature_img: result.url != null ? result.url : '' }
                 saveArticle(obj)
             },{
                 resource_type: 'image',
@@ -17,7 +23,7 @@ module.exports = {
                 ]
             })
         } else {
-            saveArticle({ text, title, claps, description, feature_img: '' })
+            saveArticle({ articleId, text, title, claps, description, feature_img: '' })
         }
         function saveArticle(obj) {
             new Article(obj).save((err, article) => {
@@ -32,6 +38,26 @@ module.exports = {
                 }
                 next()
             })
+        }
+        function getNextSequence(sequenceName) {
+            var sequenceDocument = Counter.findOneAndUpdate({
+                query : { "_id" : sequenceName },
+                update : { $inc : { "sequence_value" : 1 }},
+                new:true
+            });
+            console.log('sequenceDocument.sequence_value', sequenceDocument.sequence_value);
+            return sequenceDocument.sequence_value;
+
+            // Counter.findOneAndUpdate( { _id: name }, null, { $inc: { sequence_value: 1 } }, function(err, result){
+            //     //if(err) callback(err, result);
+            //     //callback(err, result.value.sequence_value);
+            //     if (err) { 
+            //         throw err;
+            //     }
+            //     else { 
+            //         console.log("updated!");
+            //     }
+            // } );
         }
     },
     getAll: (req, res, next) => {
@@ -89,5 +115,25 @@ module.exports = {
                 res.send(article)
             next()            
         })
+    },
+    getSequence: (req, res, next) => {
+        
+        var sequenceDocument = Counter.findOneAndUpdate({
+            query:{_id: 'articleId' },
+            update: {$inc:{sequence_value:1}},
+            new:true
+        });  
+        res.send(sequenceDocument.sequence_value);
+
+        // Counter.find({}).exec((err, result) => {
+        //     if (err)
+        //         res.send(err)
+        //     else if (!result)
+        //         res.send(404)
+        //     else
+        //         res.send(result)
+        //     next()   
+        // })
     }
+
 }

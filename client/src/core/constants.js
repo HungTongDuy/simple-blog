@@ -1,7 +1,7 @@
 //=========================================================
 //  CONSTANTS
 //---------------------------------------------------------
-export const APP_NAME = 'soundcloud-redux';
+export const APP_NAME = 'Light Blog';
 
 //=========================================================
 //  ACTIONS
@@ -26,6 +26,14 @@ export const CLEAR_USER = 'CLEAR_USER';
 
 export const PROGRESS_PUBLISH = 'PROGRESS_PUBLISH';
 
+export const TOGGLE_DIALOG_PUBLISH = 'TOGGLE_DIALOG_PUBLISH';
+
+export const OPEN_SNACKBAR_NOTIFICATION = 'OPEN_SNACKBAR_NOTIFICATION';
+
+export const CLOSE_SNACKBAR_NOTIFICATION = 'CLOSE_SNACKBAR_NOTIFICATION';
+
+export const SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
+
 //=========================================================
 //  SERVER
 //---------------------------------------------------------
@@ -40,6 +48,8 @@ export const API_BASE_URL = `http://${HOST}:${PORT}`;
 
 export const API_ARTICLE_URL = `${API_BASE_URL}/api/articles/`;
 
+export const API_ARTICLE_CLAP_URL = `${API_BASE_URL}/api/articles/clap/`;
+
 export const API_ARTICLE_EDITOR_URL = `${API_BASE_URL}/api/article/editor/`;
 
 export const API_USER_SIGNIN_URL = `${API_BASE_URL}/api/user/signin/`;
@@ -49,3 +59,37 @@ export const API_USER_URL = `${API_BASE_URL}/api/user/`;
 export const API_USER_FOLLOW_URL = `${API_BASE_URL}/api/user/follow/`;
 
 export const API_LOGIN_URL = `${API_BASE_URL}/api/signin/`;
+
+//=========================================================
+//  COMMON
+//---------------------------------------------------------
+export const SUCCESS = 'success';
+
+export const ERROR = 'error';
+
+export const INFO = 'info';
+
+export const WARNING = 'warning';
+
+export const TIMEOUT_CLOSE_SNACKBAR_NOTIFICATION = 5000;
+
+export const VERTICAL_SNACKBAR = 'top';
+
+export const HORIZONTAL_SNACKBAR = 'right';
+
+//=========================================================
+//  COMMON
+//---------------------------------------------------------
+export const MESSAGE_ADD_ARTICLE_SUCCESS = 'Add article success.';
+
+export const MESSAGE_ADD_ARTICLE_FAILED = 'Add article failed.';
+
+//=========================================================
+//  ROUTER
+//---------------------------------------------------------
+
+export const ROUTE_ARTICLE_VIEW = '/article-view/';
+
+export const ROUTE_ARTICLE_EDITOR = '/article/editor/';
+
+export const ROUTE_CATEGORIES = '/categories/';
