@@ -1,4 +1,18 @@
-import { HOME_PAGE_LOADED, DELETE_ARTICLE, SET_EDIT, SUBMIT_ARTICLE, EDIT_ARTICLE, SET_USER } from '../constants';
+import { 
+    HOME_PAGE_LOADED, 
+    DELETE_ARTICLE, 
+    SET_EDIT, 
+    SUBMIT_ARTICLE, 
+    EDIT_ARTICLE, 
+    SET_USER, 
+    SET_ARTICLE_DETAIL 
+} from '../constants';
+
+const initialState = {
+    articles: '',
+    articleToEdit: '',
+    articleDetail: ''
+}
 
 export default ( state = {}, action ) => {
     switch(action.type) {
@@ -7,6 +21,12 @@ export default ( state = {}, action ) => {
                 ...state,
                 articles: action.data
             };
+        
+        case SET_ARTICLE_DETAIL:
+            return {
+                ...state,
+                articleDetail: action.data
+            }
 
         case SUBMIT_ARTICLE:
             return {

@@ -9,7 +9,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -17,16 +16,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Snackbar from '@material-ui/core/Snackbar';
-
-import { Redirect } from 'react-router-dom'
-
-import { API_USER_SIGNIN_URL, API_USER_URL, TOGGLE_DIALOG_SIGNIN, SET_USER, API_LOGIN_URL } from '../../../core/constants';
 
 import { 
     signInWithGoogle, 
@@ -225,7 +214,6 @@ class SignIn extends React.Component {
                     {!this.props.common.signUp ? '' :
                         <Grid item xs={12} sm={12}>
                             <TextField
-                                id="with-placeholder"
                                 label="Full Name"
                                 placeholder="Full Name"
                                 className="textField"
@@ -237,7 +225,6 @@ class SignIn extends React.Component {
                     }
                     <Grid item xs={12} sm={12}>
                         <TextField
-                            id="with-placeholder"
                             label="Email"
                             placeholder="Email"
                             className="textField txt-email"
