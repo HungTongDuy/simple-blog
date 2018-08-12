@@ -47,7 +47,7 @@ class MainMenu extends React.Component{
                     aria-owns={open ? 'menu-list-grow' : null}
                     aria-haspopup="true"
                 >
-                    <Link to="/">Home</Link>
+                    <Link className="link" to="/">Home</Link>
                 </Button>
                     <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
                         {({ TransitionProps, placement }) => (

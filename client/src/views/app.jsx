@@ -17,9 +17,9 @@ const App = () => {
             <div className="row pt-5 container homeContainer main">
                 <Switch>
                     <Route exact path="/" component={Home} />
-                    <Route path="/article/:title-and-2018-:id" component={ArticleDetail} />
-                    <Route path="/categories" />
-                    <Route path="/article/editor" component={AddArticle} />
+                    <Route path="/article-view/" component={ArticleDetail} />
+                    <Route path="/categories/" />
+                    <Route path="/article/editor/" component={AddArticle} />
                 </Switch>
             </div>
             <Footer />

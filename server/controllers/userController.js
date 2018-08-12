@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
 const User = mongoose.model('User');
-const UsersPasswords = mongoose.model('UsersPasswords');
 const passwordHash = require('password-hash');
 
 module.exports = {
@@ -95,29 +94,5 @@ module.exports = {
                 })
             })
         }).catch((err)=>console.log(err))
-    },
-    addUserPassword: (req, res, next) => {
-        req.body.password = passwordHash.generate(req.body.password);
-        new UsersPasswords(req.body).save((err, newUserPassword) => {
-            if(err)
-                res.send(err)
-            else if (!newUserPassword)
-                res.send(400)
-            else 
-                res.send(newUserPassword)
-            next()
-        });
-    },
-    getUserPassword: (req, res, next) => {
-        UsersPasswords.find({user : req.params.id})//.then
-        .populate('user').exec((err, user)=> {
-            if (err)
-                res.send(err)
-            else if (!user)
-                res.send(404)
-            else 
-                res.send(user)
-            next()            
-        })
     }
 }
