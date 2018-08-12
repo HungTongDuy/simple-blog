@@ -82,7 +82,7 @@ mongoose.set('debug', true);
 // Add models
 require('./models/Article');
 require('./models/User');
-require('./models/UsersPasswords');
+require('./models/Counter');
 // Add routes
 app.use(require('./routes'));
 
@@ -133,7 +133,6 @@ app.all('/*', function (req, res, next) {
 // **************
 
 const User = mongoose.model('User');
-const UsersPasswords = mongoose.model('UsersPasswords');
 const passwordHash = require('password-hash');
 
 passport.serializeUser(function (user, done) {
