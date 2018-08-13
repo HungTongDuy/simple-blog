@@ -44,12 +44,12 @@ class Home extends React.Component {
                     <FeaturedArticleList articles={articles} />
                 </div>
                 <div className="homeCenterStream">
-                    <Grid item xs={8}>
+                    <Grid item xs={12} sm={12}>
                         <NewArticleList articles={articles} />
                     </Grid>
-                    <Grid item xs={4}>
+                    {/* <Grid item xs={4}>
                         
-                    </Grid>
+                    </Grid> */}
                 </div>
             </div>
         );

@@ -60,6 +60,10 @@ export const API_USER_FOLLOW_URL = `${API_BASE_URL}/api/user/follow/`;
 
 export const API_LOGIN_URL = `${API_BASE_URL}/api/signin/`;
 
+export const API_FOLLOW_USER_URL = `${API_BASE_URL}/api/user/follow/`;
+
+export const API_COMMENT_ARTICLE_URL = `${API_BASE_URL}/api/articles/comment/`;
+
 //=========================================================
 //  COMMON
 //---------------------------------------------------------
@@ -83,6 +87,10 @@ export const HORIZONTAL_SNACKBAR = 'right';
 export const MESSAGE_ADD_ARTICLE_SUCCESS = 'Add article success.';
 
 export const MESSAGE_ADD_ARTICLE_FAILED = 'Add article failed.';
+
+export const MESSAGE_POST_COMMENT_SUCCESS = 'Post comment success.';
+
+export const MESSAGE_POST_COMMENT_FAILED = 'Post comment failed.';
 
 //=========================================================
 //  ROUTER

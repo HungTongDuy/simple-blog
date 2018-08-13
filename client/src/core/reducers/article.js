@@ -7,7 +7,8 @@ const initialState = {
     title: '',
     text: '',
     description: '',
-    imgSrc: null
+    imgSrc: null,
+    author: {}
 }
 
 export default ( state = initialState, action ) => {

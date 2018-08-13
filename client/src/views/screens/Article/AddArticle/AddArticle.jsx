@@ -136,7 +136,7 @@ class Form extends React.Component {
 
     onContentStateChange(contentState) {
         this.setState({
-          contentState : contentState
+            contentState : contentState
         })
     };
 
@@ -200,7 +200,7 @@ class Form extends React.Component {
             //     claps: 0
             // }
             const formdata = new FormData()
-            formdata.append('text', this.state.text)
+            formdata.append('text', this.state.textQuill)
             formdata.append('image', this.state.imgSrc)
             formdata.append('title', this.state.title)
             formdata.append('author_id', JSON.parse(localStorage.Auth)._id)
@@ -236,32 +236,22 @@ class Form extends React.Component {
         console.log('state-addArticle: ', this.state);
         const common = this.props;
 
-        const options=  {
-            placeholder: "Edit Me",
-            events : {
-                'froalaEditor.focus' : function(e, editor) {
-                    console.log('froalaEditor.focus: ', editor.selection.get());
-                },
-                'froalaEditor.image.loaded' : function (e, editor, $img) {
-                    console.log('froalaEditor.image.loaded', $img);
-                },
-                'froalaEditor.image.inserted' : function (e, editor, $img, res) {
-                    console.log('froalaEditor.image.inserted', $img + '-' + res);
-                },
-                'froalaEditor.image.beforeUpload' : function (e, editor, images) {
-                    console.log('froalaEditor.image.beforeUpload', images);
-                },
-            }
-        }
-
-        // const config = {
-        //     toolbarButtons: ['undo', 'redo', 'clearFormatting', 'selectAll', 'html', 'insertInputField']
-        // }
-
         return (
             <CardContent className="add-article-component">
                 <Grid container spacing={24} item xs={8} sm={8} className="editor-article-container">
                     <Grid item xs={12} sm={12}>
+                        <Grid item xs={2} sm={2}>
+                            <span className="picture_upload" onClick={this.handleClick}>
+                                <i className="fa fa-camera"></i>
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <div className={this.state.imgSrc != null ? 'file-upload-previewer' : 'file-upload-previewer hidden'}>
+                                <img src="" alt="" id="image_preview"/>
+                            </div>
+                            <div className="existing-img-previewer" id="existing-img-previewer">
+                            </div>
+                        </Grid>
                         <Grid item xs={12} sm={12}>
                             <TextField
                                 label="Title"
@@ -277,14 +267,13 @@ class Form extends React.Component {
                             /> */}
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            <FroalaEditor 
+                            {/* <FroalaEditor 
                                 id="editor"
                                 tag='textarea'
                                 config={config}
                                 //model={this.state.model}
                                 onModelChange={this.handleModelChange}
-                                options={options}
-                            />
+                            /> */}
 
                             {/* <Editor
                                 editorState={this.state.editorState}
@@ -309,18 +298,6 @@ class Form extends React.Component {
                                 <input type="file" onChange={ ()=>this.previewImg()} id="file" ref="fileUploader"/>
                             </div>
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <span className="picture_upload">
-                                <i className="fa fa-camera" onClick={this.handleClick}></i>
-                            </span>
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <div className={this.state.imgSrc != null ? 'file-upload-previewer' : 'file-upload-previewer hidden'}>
-                                <img src="" alt="" id="image_preview"/>
-                            </div>
-                            <div className="existing-img-previewer" id="existing-img-previewer">
-                            </div>
-                        </Grid>
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         <Button 
@@ -342,32 +319,28 @@ class Form extends React.Component {
 }
 var toolbarOptions = {
     container: [
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': ['serif','monospace'] }],
         ['bold', 'italic', 'underline', 'strike'],     // toggled buttons
         ['blockquote', 'code-block'],
         [{ 'align': ['','center','right','justify'] }],
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        //[{ 'header': 1 }, { 'header': 2 }],               // custom button values
         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
         //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
         [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
         [{ 'direction': 'rtl' }],                         // text direction
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        [{ 'font': ['serif','monospace'] }],
         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         ['link','image','video'],
         ['clean']                                         // remove formatting button
-    ],
-    handlers: {'emoji': function() {}}
+    ]
 }
 
 Form.modules = {
     toolbar: toolbarOptions,
-    //toolbar_emoji: true,
     clipboard: {
         matchVisual: false,
-    },
-    imageDrop: true,
-    imageResize: {}
+    }
 };
 // Editor.modules = {
 //     toolbar: {
@@ -393,7 +366,7 @@ Form.formats = [
     "bullet",
     "indent",
     "link",
-    "imagewithstyle",
+    "image",
     "color",
     "video",
     "width"

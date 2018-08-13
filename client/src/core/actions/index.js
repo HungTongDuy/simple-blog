@@ -19,14 +19,18 @@ import {
     MESSAGE_ADD_ARTICLE_SUCCESS,
     MESSAGE_ADD_ARTICLE_FAILED,
     SET_ARTICLE_DETAIL,
-    API_ARTICLE_CLAP_URL
+    API_ARTICLE_CLAP_URL,
+    API_FOLLOW_USER_URL,
+    API_COMMENT_ARTICLE_URL,
+    MESSAGE_POST_COMMENT_SUCCESS,
+    MESSAGE_POST_COMMENT_FAILED
 } from '../constants';
 import axios from 'axios';
 
 export const getUser = (_id) => {
     return axios.get(API_USER_URL + _id).then((res)=>{
         return res.data
-    }).catch(err=>console.log(err))
+    }).catch(err=>console.log('Error: ', err))
 }
 
 export const signInWithGoogle = (data) => {
@@ -46,7 +50,9 @@ export const signInWithGoogle = (data) => {
             localStorage.setItem('Auth', JSON.stringify(user));
             dispatch({type: SET_USER, user});
             dispatch(toggleDialogClose());
-        }).catch((err)=>{console.log(err);})
+        }).catch((err) => {
+            console.log('Error: ', err);
+        })
     }
 };
 
@@ -77,7 +83,9 @@ export const signInWithFacebook = (data) => {
                 dispatch(toggleDialogClose());
             }).catch((err)=>{console.log(err);})
 
-        }).catch(err=>console.log(err))
+        }).catch((err) => {
+            console.log('Error: ', err);
+        })
     }
 }
 
@@ -89,7 +97,9 @@ export const signInWithAccount = (data) => {
             localStorage.setItem('Auth', JSON.stringify(user));
             dispatch({type: SET_USER, user});
             dispatch(toggleDialogClose());
-        }).catch((err)=>{console.log(err);})
+        }).catch((err) => {
+            console.log('Error: ', err);
+        })
     }
 }
 
@@ -101,7 +111,9 @@ export const signUpWithAccount = (data) => {
             localStorage.setItem('Auth', JSON.stringify(user));
             dispatch({type: SET_USER, user});
             dispatch(toggleDialogClose());
-        }).catch((err)=>{console.log(err);})
+        }).catch((err) => {
+            console.log('Error: ', err);
+        })
     }
 }
 
@@ -158,6 +170,7 @@ export const openSnackbarNotification = (variant, message) => {
         variant: variant, 
         message: message
     };
+    console.log('openSnackbarNotification');
     return (dispatch) => {
         dispatch({ type : OPEN_SNACKBAR_NOTIFICATION, data });
         setTimeout(() => {
@@ -181,8 +194,8 @@ async function getArticle(articleId) {
         const response = await axios.get(API_ARTICLE_URL + articleId);
         console.log(response);
         return response;
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.log('Error: ', err);
     }
 }
 
@@ -194,9 +207,9 @@ export const getArticleDetail = (articleId) => {
             console.log(response);
             dispatch({ type: SET_ARTICLE_DETAIL, data: response.data });
         })
-        .catch(function (error) {
+        .catch(function (err) {
             // handle error
-            console.log(error);
+            console.log('Error: ', err);
         })
     }
 }
@@ -211,8 +224,45 @@ export const clapArticle = (articleId) => {
             if(res.status == 200) {
                 dispatch(getArticleDetail(articleId));
             }
-        }).catch((err)=>{
-            console.log(err);
+        }).catch((err) => {
+            console.log('Error: ', err);
+        })
+    }
+}
+
+export const followUser = (id, userId, articleId) => {
+    let data = {
+        id: id,
+        user_id: userId
+    }
+
+    return(dispatch) => {
+        axios.post(API_FOLLOW_USER_URL, data).then((res) => {
+            if(res.status == 200) {
+                axios.get(API_USER_URL + id).then((res)=>{
+                    dispatch({ type: SET_USER, user: res.data })
+                }).catch(err=>console.log('Error: ', err))
+                // dispatch(getArticleDetail(articleId));
+            }
+        }).catch((err) => {
+            console.log('Error: ', err);
+        })
+    }
+}
+
+export const postComment = (articleId, authorId, comment) => {
+    let data = {
+        article_id: articleId,
+        author_id: authorId,
+        comment: comment
+    }
+    return(dispatch) => {
+        axios.post(API_COMMENT_ARTICLE_URL, data).then((res) => {
+            dispatch(openSnackbarNotification(SUCCESS, MESSAGE_POST_COMMENT_SUCCESS));
+            dispatch(getArticleDetail(articleId));
+        }).catch((err) => {
+            console.log('Error: ', err);
+            dispatch(openSnackbarNotification(ERROR, MESSAGE_POST_COMMENT_FAILED));
         })
     }
 }

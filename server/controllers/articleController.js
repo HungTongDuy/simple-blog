@@ -92,9 +92,12 @@ module.exports = {
      */
     commentArticle: (req, res, next) => {
         Article.findById(req.body.article_id).then((article)=> {
+            let date = new Date()
             return article.comment({
                 author: req.body.author_id,
-                text: req.body.comment
+                text: req.body.comment,
+                createdAt: date.toISOString(),
+                claps: 0
             }).then(() => {
                 return res.json({msg: "Done"})
             })
