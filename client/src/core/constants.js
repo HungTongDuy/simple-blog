@@ -34,6 +34,8 @@ export const CLOSE_SNACKBAR_NOTIFICATION = 'CLOSE_SNACKBAR_NOTIFICATION';
 
 export const SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
 
+export const SET_PROFILE = 'SET_PROFILE';
+
 //=========================================================
 //  SERVER
 //---------------------------------------------------------
@@ -63,6 +65,8 @@ export const API_LOGIN_URL = `${API_BASE_URL}/api/signin/`;
 export const API_FOLLOW_USER_URL = `${API_BASE_URL}/api/user/follow/`;
 
 export const API_COMMENT_ARTICLE_URL = `${API_BASE_URL}/api/articles/comment/`;
+
+export const API_USER_PROFILE_URL = `${API_BASE_URL}/api/user/profile/`;
 
 //=========================================================
 //  COMMON

@@ -97,7 +97,8 @@ module.exports = {
                 author: req.body.author_id,
                 text: req.body.comment,
                 createdAt: date.toISOString(),
-                claps: 0
+                claps: 0,
+                // name: req.body.name
             }).then(() => {
                 return res.json({msg: "Done"})
             })

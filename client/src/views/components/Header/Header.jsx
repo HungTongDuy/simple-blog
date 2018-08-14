@@ -84,7 +84,8 @@ class Header extends React.Component {
                     </div>
                     <div className="header-account">
                         <div className="sign-in-button">
-                        {!this.props.authUser.isAuth ? '' : 
+                        {
+                            !this.props.authUser.isAuth ? '' : 
                             <div className="group-user">
                                 <Link className="link button green-border-button" data-behavior="trigger-overlay" to="/article/editor">Write a story</Link>
                                 {(this.props.authUser.user.provider_pic != null && this.props.authUser.user.provider_pic != undefined)  ?
@@ -111,10 +112,14 @@ class Header extends React.Component {
                             open={Boolean(this.state.anchorEl)}
                             onClose={this.handleCloseMenu}
                         >
-                            <MenuItem onClick={this.handleCloseMenu}>Profile</MenuItem>
-                            <MenuItem onClick={this.handleCloseMenu}>Settings</MenuItem>
+                            <MenuItem onClick={this.handleCloseMenu}>
+                                <Link className="link" to={"/profile/" + this.props.authUser.user._id}>Profile</Link>
+                            </MenuItem>
+                            <MenuItem onClick={this.handleCloseMenu}>
+                                <Link className="link" to="">Settings</Link>
+                            </MenuItem>
                             <MenuItem onClick={this.signoutGoogle}>
-                                Sign out
+                                <Link className="link" to="">Sign out</Link>
                             </MenuItem>
                         </Menu>
                     </div>

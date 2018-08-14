@@ -23,7 +23,9 @@ import {
     API_FOLLOW_USER_URL,
     API_COMMENT_ARTICLE_URL,
     MESSAGE_POST_COMMENT_SUCCESS,
-    MESSAGE_POST_COMMENT_FAILED
+    MESSAGE_POST_COMMENT_FAILED,
+    API_USER_PROFILE_URL,
+    SET_PROFILE
 } from '../constants';
 import axios from 'axios';
 
@@ -235,7 +237,7 @@ export const followUser = (id, userId, articleId) => {
         id: id,
         user_id: userId
     }
-
+    console.log('followUser-actions', data);
     return(dispatch) => {
         axios.post(API_FOLLOW_USER_URL, data).then((res) => {
             if(res.status == 200) {
@@ -264,5 +266,15 @@ export const postComment = (articleId, authorId, comment) => {
             console.log('Error: ', err);
             dispatch(openSnackbarNotification(ERROR, MESSAGE_POST_COMMENT_FAILED));
         })
+    }
+}
+
+export function getUserProfile (_id) {
+    console.log('getUserProfile');
+    return (dispatch) => {
+        axios.get(API_USER_PROFILE_URL + _id).then((res)=>{
+            let profile = res.data
+            dispatch({type: SET_PROFILE, profile})
+        }).catch(err=>console.log(err))
     }
 }

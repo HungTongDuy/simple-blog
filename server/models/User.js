@@ -9,6 +9,7 @@ let UserSchema = new mongoose.Schema(
         token: String,
         provider_pic: String,
         password: String,
+        first_name: String,
         followers: [
             {
                 type: mongoose.Schema.Types.ObjectId,

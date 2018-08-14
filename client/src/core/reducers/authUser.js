@@ -1,9 +1,9 @@
-import { SET_USER, CLEAR_USER } from '../constants';
+import { SET_USER, CLEAR_USER, SET_PROFILE } from '../constants';
 
 const initialState = {
     isAuth: false,
     user: {},
-    redirect: false
+    profile: {}
 }
 
 export default ( state = initialState, action ) => {
@@ -13,8 +13,7 @@ export default ( state = initialState, action ) => {
             return {
                 ...state,
                 isAuth: Object.keys(action.user).length > 0 ? true : false,
-                user: action.user,
-                redirect: true
+                user: action.user
             }
 
         case CLEAR_USER:
@@ -22,6 +21,12 @@ export default ( state = initialState, action ) => {
                 ...state,
                 isAuth: false,
                 user: {}
+            }
+
+        case SET_PROFILE:
+            return {
+                ...state,
+                profile: action.profile
             }
         
         default:

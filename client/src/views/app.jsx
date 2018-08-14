@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Home from './screens/Home';
 import AddArticle from './screens/Article/AddArticle';
 import Footer from './components/Footer';
+import Profile from './components/Profile';
 
 import './app.css';
 
@@ -20,6 +21,7 @@ const App = () => {
                     <Route path="/article-view/" component={ArticleDetail} />
                     <Route path="/categories/" />
                     <Route path="/article/editor/" component={AddArticle} />
+                    <Route path="/profile/:user/:id/" component={Profile} />
                 </Switch>
             </div>
             <Footer />
