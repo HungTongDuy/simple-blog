@@ -18,10 +18,6 @@ import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import ErrorIcon from '@material-ui/icons/Error';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CloseIcon from '@material-ui/icons/Close';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
@@ -45,10 +41,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 
 import ReactQuill, { Quill } from 'react-quill'; // ES6
-//import quillEmoji from 'quill-emoji';
-//quillEmoji(Quill);
-// import * as ReactQuill from 'react-quill'; // Typescript
-// const ReactQuill = require('react-quill');
 import 'react-quill/dist/quill.snow.css'; // ES6
 
 

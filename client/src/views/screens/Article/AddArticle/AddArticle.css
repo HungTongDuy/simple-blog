@@ -56,3 +56,7 @@ span.picture_upload {
 .ql-editor {
     min-height: 20em;
 }
+
+#image_preview {
+    width: 100%;
+}

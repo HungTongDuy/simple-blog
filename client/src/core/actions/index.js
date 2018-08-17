@@ -1,6 +1,6 @@
 "use strict";
 
-import { 
+import {
     API_USER_SIGNIN_URL, 
     CLEAR_USER, 
     SET_USER, 
@@ -149,17 +149,17 @@ export const onLoadProgress = data => {
 
 export const onSubmitPublish = formdata => {
     return (dispatch) => {
-        dispatch(onLoadProgress(false));
-        dispatch(openSnackbarNotification(SUCCESS, MESSAGE_ADD_ARTICLE_SUCCESS));
+        dispatch(onLoadProgress(true));
         console.log('formdata', formdata);
         axios.post(API_ARTICLE_URL, formdata).then((res) => {
             console.log('res--', res);
             if(res.status == 200) {
                 dispatch(onLoadProgress(false));
-                dispatch({ type : OPEN_SNACKBAR_NOTIFICATION, data : {variant: SUCCESS, message: MESSAGE_ADD_ARTICLE_SUCCESS} })
+                dispatch(openSnackbarNotification(SUCCESS, MESSAGE_ADD_ARTICLE_SUCCESS));
             }
         }).catch((err)=>{
             console.log(err);
+            dispatch(onLoadProgress(false));
             dispatch(openSnackbarNotification(ERROR, MESSAGE_ADD_ARTICLE_FAILED));
         })
 
@@ -232,7 +232,7 @@ export const clapArticle = (articleId) => {
     }
 }
 
-export const followUser = (id, userId, articleId) => {
+export const followUser = (id, userId) => {
     let data = {
         id: id,
         user_id: userId
@@ -244,7 +244,6 @@ export const followUser = (id, userId, articleId) => {
                 axios.get(API_USER_URL + id).then((res)=>{
                     dispatch({ type: SET_USER, user: res.data })
                 }).catch(err=>console.log('Error: ', err))
-                // dispatch(getArticleDetail(articleId));
             }
         }).catch((err) => {
             console.log('Error: ', err);
@@ -276,5 +275,23 @@ export function getUserProfile (_id) {
             let profile = res.data
             dispatch({type: SET_PROFILE, profile})
         }).catch(err=>console.log(err))
+    }
+}
+
+export function change_name_user (text) {
+    return (dispatch) => {
+        dispatch({ type: 'CHANGE_NAME_USER', data: text})
+    }
+}
+
+export function edit_user(data) {
+    return (dispatch) => {
+        axios.patch(API_USER_URL, data).then((res) => {
+            console.log('edit_user', res.data);
+            //dispatch({ type: 'SET_EDIT_USER', data: res.data});
+        }).catch((err) => {
+            dispatch(openSnackbarNotification(ERROR, 'Edit user error.'));
+            console.log(err);
+        })
     }
 }

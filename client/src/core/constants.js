@@ -85,6 +85,8 @@ export const VERTICAL_SNACKBAR = 'top';
 
 export const HORIZONTAL_SNACKBAR = 'right';
 
+export const FACEBOOK_APP_ID = '308747443230320';
+
 //=========================================================
 //  COMMON
 //---------------------------------------------------------

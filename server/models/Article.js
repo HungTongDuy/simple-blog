@@ -42,4 +42,26 @@ ArticleSchema.methods.getUserArticle = function (_id) {
         return article
     })
 }
+ArticleSchema.methods.clap_comment = (comment_id) => {
+    var comment = this.comments.find((comment) => {
+        
+        if(comment._id = comment_id) {
+            return comment
+        }
+    })
+    commment.claps++
+    // arr_comment.map((item, key) => {
+    //     if(item._id == comment_id) {
+    //         this.comment[key].claps++
+    //     }
+    // })
+    //this.comments[key].claps++
+    // this.comments.map((item, key) => {
+    //     if(item._id == comment_id) {
+    //         this.comment[key].claps++
+    //     }
+    // })
+    
+    return this.save()
+}
 module.exports = mongoose.model('Article', ArticleSchema)

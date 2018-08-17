@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import { formatDate } from '../../../core/utils';
 
-import { postComment } from '../../../core/actions';
+import { postComment, toggleDialogOpen } from '../../../core/actions';
 
 import SnackbarNotification from '../../components/SnackbarNotification';
 
@@ -20,13 +20,21 @@ class CommentContent extends React.Component {
 
         this.postComment = this.postComment.bind(this);
         this.changeTextComment = this.changeTextComment.bind(this);
+        this.clapComment = this.clapComment.bind(this);
     }
 
     postComment() {
         console.log('this.postComment');
-        const articleDetail = this.props.articleDetail;
-        const user = this.props.user;
-        this.props.postComment(articleDetail._id, user._id, this.state.textComment);
+        if(localStorage.Auth) {
+            const articleDetail = this.props.articleDetail;
+            const user = this.props.user;
+            this.props.postComment(articleDetail._id, user._id, this.state.textComment);
+            this.setState({
+                textComment: ''
+            })
+        } else {
+            this.props.toggleDialogOpen({ signIn: true, signUp: false });
+        }
     }
 
     changeTextComment(e) {
@@ -34,6 +42,10 @@ class CommentContent extends React.Component {
         this.setState({
             textComment: e.target.value
         })
+    }
+
+    clapComment(_id) {
+        console.log('clapComment: ', _id);
     }
 
     render() {
@@ -80,7 +92,7 @@ class CommentContent extends React.Component {
                     <div className="responsesStream js-responsesStream">
                         {articleDetail.comments.map((item, key) => {
                             return (
-                                    <CommentItem comment={item} />
+                                    <CommentItem key={key} clapComment={this.clapComment} comment={item} />
                             );
                         })}
                         
@@ -88,9 +100,9 @@ class CommentContent extends React.Component {
                     </div>
                     {/*----------end comment list-----------*/}
                     {/*----------start "show all comment"-----------*/}
-                    <div className="u-maxWidth740 js-showOtherResponses">
+                    {/* <div className="u-maxWidth740 js-showOtherResponses">
                         <button className="button button--primary button--withChrome u-accentColor--buttonNormal responsesStream-showOtherResponses cardChromeless u-sizeFullWidth u-marginVertical20 u-heightAuto is-touched" data-action="show-other-responses">Show all responses</button>
-                    </div>
+                    </div> */}
                     {/*----------end "show all comment"-----------*/}
                     <SnackbarNotification />
                 </div>
@@ -100,7 +112,14 @@ class CommentContent extends React.Component {
 }
 
 const CommentItem = (props) => {
+    let url = '';
     let comment = props.comment;
+    console.log('comment', comment);
+    if(comment.author != undefined && Object.keys(comment.author).length > 0) {
+        let n = comment.author.email.lastIndexOf('@');
+        let user_key = comment.author.email.slice(0, n);
+        url = "/profile/@" + user_key + "/" + comment.author._id + "/";
+    }
     return (
         <div className="streamItem streamItem--postPreview js-streamItem" data-action-scope="_actionscope_6">
             <div className="cardChromeless u-marginTop20 u-paddingTop10 u-paddingBottom15 u-paddingLeft20 u-paddingRight20">
@@ -112,16 +131,16 @@ const CommentItem = (props) => {
                         <div className="postMetaInline u-floatLeft">
                             <div className="u-flexCenter">
                                 <div className="postMetaInline-avatar u-flex0">
-                                    <a className="link u-baseColor--link avatar" href="https://medium.com/@PeteT2" data-action="show-user-card" data-action-value="f55b78ed1d0c" data-action-type="hover" data-user-id="f55b78ed1d0c" dir="auto">
+                                    <a className="link u-baseColor--link avatar" href={url} data-action="show-user-card" data-action-value="f55b78ed1d0c" data-action-type="hover" data-user-id="f55b78ed1d0c" dir="auto">
                                         <Avatar src={comment.author.provider_pic} className="avatar-image u-size36x36 u-xs-size32x32" alt={"Go to the profile of " + comment.author.name} />
                                     </a>
                                 </div>
                                 <div className="postMetaInline postMetaInline-authorLockup ui-captionStrong u-flex1 u-noWrapWithEllipsis">
-                                    <a className="ds-link ds-link--styleSubtle link link--darken link--accent u-accentColor--textNormal u-accentColor--textDarken" href="" >
+                                    <a className="ds-link ds-link--styleSubtle link link--darken link--accent u-accentColor--textNormal u-accentColor--textDarken" href={url} >
                                         {comment.author.name}
                                     </a>
                                     <div className="ui-caption u-fontSize12 u-baseColor--textNormal u-textColorNormal js-postMetaInlineSupplemental">
-                                        <a className="link link--darken" href="https://medium.com/@PeteT2/i-rarely-comment-on-articles-but-i-must-say-when-i-bought-the-whole-taocp-set-i-read-no-e2d73fd7c130?source=responses---------0-31--------------------" data-action="open-post" data-action-value="https://medium.com/@PeteT2/i-rarely-comment-on-articles-but-i-must-say-when-i-bought-the-whole-taocp-set-i-read-no-e2d73fd7c130?source=responses---------0-31--------------------" data-action-source="preview-listing">
+                                        <a className="link link--darken" href={url} data-action="open-post" data-action-value={url} data-action-source="preview-listing">
                                             <time dateTime="2016-04-24T03:06:00.466Z">{formatDate(comment.createdAt)}</time>
                                         </a><span className="middotDivider u-fontSize12"></span>
                                         {/* <span className="readingTime" title="1 min read"></span> */}
@@ -131,7 +150,7 @@ const CommentItem = (props) => {
                         </div>
                     </div>
                     <div className="js-inlineExpandBody comment-text">
-                        <a className="" href="https://medium.com/@PeteT2/i-rarely-comment-on-articles-but-i-must-say-when-i-bought-the-whole-taocp-set-i-read-no-e2d73fd7c130?source=responses---------0-31--------------------" data-action="expand-inline">
+                        <a className="" href={url} data-action="expand-inline">
                             <div className="postArticle-content js-postField">
                                 <section className="section section--body section--first section--last">
                                     <div className="section-divider">
@@ -155,7 +174,7 @@ const CommentItem = (props) => {
                         <div className="u-floatLeft">
                             <div className="multirecommend js-actionMultirecommend u-flexCenter" data-post-id="e2d73fd7c130" data-is-flush-left="true" data-source="listing-----e2d73fd7c130---------------------clap_preview">
                                 <div className="u-relative u-foreground">
-                                    <button className="button button--primary button--chromeless u-accentColor--buttonNormal button--withIcon button--withSvgIcon clapButton js-actionMultirecommendButton" data-action="multivote" data-action-value="e2d73fd7c130" data-action-type="long-press" data-action-source="listing-----e2d73fd7c130---------------------clap_preview" aria-label="Clap">
+                                    <button onClick={() => props.clapComment(comment._id)} className="button button--primary button--chromeless u-accentColor--buttonNormal button--withIcon button--withSvgIcon clapButton js-actionMultirecommendButton" data-action="multivote" data-action-value="e2d73fd7c130" data-action-type="long-press" data-action-source="listing-----e2d73fd7c130---------------------clap_preview" aria-label="Clap">
                                     <span className="button-defaultState">
                                         <span className="svgIcon svgIcon--clap svgIcon--25px is-flushLeft">
                                             <svg className="svgIcon-use" width="25" height="25" viewBox="0 0 25 25">
@@ -206,7 +225,8 @@ const CommentItem = (props) => {
 
 const mapDispatchtoProps = (dispatch) => {
     return({
-        postComment: (articleId, authorId, comment) => dispatch(postComment(articleId, authorId, comment))
+        postComment: (articleId, authorId, comment) => dispatch(postComment(articleId, authorId, comment)),
+        toggleDialogOpen: data => dispatch(toggleDialogOpen(data)) 
     })
 }
 

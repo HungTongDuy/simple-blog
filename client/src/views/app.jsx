@@ -11,7 +11,6 @@ import Profile from './components/Profile';
 import './app.css';
 
 const App = () => {
-    console.log('app.js');
     return (
         <div className="app">
             <Header />
@@ -21,7 +20,7 @@ const App = () => {
                     <Route path="/article-view/" component={ArticleDetail} />
                     <Route path="/categories/" />
                     <Route path="/article/editor/" component={AddArticle} />
-                    <Route path="/profile/:user/:id/" component={Profile} />
+                    <Route path="/profile/:user/:id/:key(|edit|following|followers)" component={Profile} />
                 </Switch>
             </div>
             <Footer />

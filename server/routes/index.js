@@ -34,14 +34,12 @@ var jwt    = require('jsonwebtoken');
 // 				success: false, 
 // 				message: 'No token provided.'
 // 			});
-			
 // 		}
 // 	}
 // });
 
 router.use('/api', require('./api'));
 
-
-
+router.use('/m', require('./signin'));
 
 module.exports = router;

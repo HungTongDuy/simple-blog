@@ -26,7 +26,7 @@ module.exports = {
                     });
                 } else {
                     console.log('user-409');
-                    res.status(200).send(user[0]);
+                    return res.status(200).send(user[0]);
                 }
                 //next()      
             })
@@ -89,10 +89,45 @@ module.exports = {
                 _users.forEach((user_)=>{
                     _user.addFollower(user_)
                 })
+                _user.following.forEach((userId, key) => {
+                    User.findById(userId).then((user_) => {
+                        _user.following[key] = user_;
+                    })
+                })
                 return Article.find({'author': req.params.id}).then((_articles)=> {
                     return res.json({ user: _user, articles: _articles })
                 })
             })
         }).catch((err)=>console.log(err))
+    },
+    editUser: (req, res, next) => {
+        console.log('req-user: ', req.body);
+        console.log('req-user: ', req.files);
+        if (req.files != undefined && req.files.image) {
+                cloudinary.uploader.upload(req.files.image.path, (result) => {
+                    let obj = { name: req.body.name, provider_pic: result.url != null ? result.url : ''}
+                    saveUser(obj)
+                },{
+                    resource_type: 'image',
+                    eager: [
+                        {effect: 'sepia'}
+                    ]
+                })
+        } else {
+            console.log('req.files undefined');
+            let obj = { name: req.body.name, provider_pic: req.body.provider_pic != null ? req.body.provider_pic : ''}
+            saveUser(obj);
+        }
+        function saveUser(obj){
+            User.findOneAndUpdate({_id: req.body._id }, obj, {new : true} , (err, user) => {
+                if (err)
+                    res.send(err)
+                else if (!user)
+                    res.send(404)
+                else
+                    res.send(user)
+            })
+        }
+
     }
 }

@@ -22,12 +22,12 @@ class FeaturedArticleList extends React.Component {
     render() {
         const numberOfItemDisplay = 4;
         let articles = this.props.articles;
-        console.log('articles', articles);
+        
         if ((articles != undefined) || (articles != null)) {
             articles = articles.slice(0, numberOfItemDisplay);
             return (
-                <Grid xs={12} sm={12}>               
-                    <Grid item className="extremeHero-largeCard js-trackedPost" xs={7} sm={7}>
+                <Grid item xs={12} sm={12}>               
+                    <Grid xs={7} sm={7} item className="extremeHero-largeCard js-trackedPost">
                         <div className="extremeHero-post">
                             <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(articles[0].title) + '-' + articles[0]._id }><img src={articles[0].feature_img} title={articles[0].title} /></Link>
                             <div className="extremeHero-postContent">
@@ -45,18 +45,18 @@ class FeaturedArticleList extends React.Component {
                             </div>
                         </div>
                     </Grid>
-                    <Grid item className="extremeHero-smallCardContainer" xs={5} sm={5}>
+                    <Grid item xs={5} sm={5} className="extremeHero-smallCardContainer">
                         {articles.map((article, key) => {
                             if(key != 0) {
                                 return (
                                     <div className="card streamItem" key={key}>
                                         <div className="extremePostPreview">
-                                            <Grid item className="extremeHero-image" xs={4}>
+                                            <Grid item xs={4} sm={4} className="extremeHero-image">
                                                 <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(article.title) + '-' + article._id }>
                                                     <img src={article.feature_img} title={article.title}/>                                                
                                                 </Link>
                                             </Grid>
-                                            <Grid item className="extremeHero-postContent" xs={8}>
+                                            <Grid item xs={8} xs={8} className="extremeHero-postContent">
                                                 <div className="extremeHero-titleClamp">
                                                     <h3 className="title">
                                                         <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(article.title) + '-' + article._id }>

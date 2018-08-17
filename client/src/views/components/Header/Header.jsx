@@ -14,8 +14,6 @@ import Icon from '@material-ui/core/Icon';
 import './Header.css';
 import { DialogContentText } from '../../../../node_modules/@material-ui/core';
 
-import { TOGGLE_DIALOG_SIGNIN, CLEAR_USER } from '../../../core/constants';
-
 import { toggleDialogClose, toggleDialogOpen, signOut } from '../../../core/actions';
 
 import { GoogleLogout } from 'react-google-login';
@@ -68,7 +66,16 @@ class Header extends React.Component {
         const logoutGoogle = (res) => {
             console('res-logout', res);
         };
-        console.log('this.props.authUser.user.provider_pic', this.props.authUser.user.provider_pic);
+        const authUser = this.props.authUser;
+        console.log('authUser: ', authUser);
+        let url = "";
+        if(Object.keys(authUser.user).length > 0){
+            let n = authUser.user.email.lastIndexOf('@');
+            let user_key = authUser.user.email.slice(0, n);
+            url = "/profile/@" + user_key + "/" + authUser.user._id + "/";
+        }
+        
+        // console.log('this.props.authUser.user.provider_pic', this.props.authUser.user.provider_pic);
         return (
             <div className="header container">
                 <div className="js-metabarLogoCentered">
@@ -88,8 +95,8 @@ class Header extends React.Component {
                             !this.props.authUser.isAuth ? '' : 
                             <div className="group-user">
                                 <Link className="link button green-border-button" data-behavior="trigger-overlay" to="/article/editor">Write a story</Link>
-                                {(this.props.authUser.user.provider_pic != null && this.props.authUser.user.provider_pic != undefined)  ?
-                                    <Avatar onClick={this.handleClick} alt={this.props.authUser.user.name} src={this.props.authUser.user.provider_pic} className="avatar" /> 
+                                {(authUser.user.provider_pic != null && authUser.user.provider_pic != undefined)  ?
+                                    <Avatar onClick={this.handleClick} alt={authUser.user.name} src={authUser.user.provider_pic} className="avatar" /> 
                                     :
                                     <Icon className="avatar" color="primary" onClick={this.handleClick}>
                                         account_circle
@@ -102,8 +109,8 @@ class Header extends React.Component {
                                 </GoogleLogout> */}
                             </div>
                         }
-                        {this.props.authUser.isAuth ? '' : <a href="#" className="button green-border-button" onClick={this.handleOpenSignIn}>Sign In</a>}
-                        {this.props.authUser.isAuth ? '' : <a href="#" className="button green-border-button signup-btn" onClick={this.handleOpenSignUp}>Sign Up</a>}
+                        {authUser.isAuth ? '' : <a href="#" className="button green-border-button" onClick={this.handleOpenSignIn}>Sign In</a>}
+                        {authUser.isAuth ? '' : <a href="#" className="button green-border-button signup-btn" onClick={this.handleOpenSignUp}>Sign Up</a>}
                             {/* <Link to="/signin" className="button green-border-button">Sign in</Link> */}
                         </div>
                         <Menu
@@ -113,7 +120,7 @@ class Header extends React.Component {
                             onClose={this.handleCloseMenu}
                         >
                             <MenuItem onClick={this.handleCloseMenu}>
-                                <Link className="link" to={"/profile/" + this.props.authUser.user._id}>Profile</Link>
+                                <Link className="link" to={url}>Profile</Link>
                             </MenuItem>
                             <MenuItem onClick={this.handleCloseMenu}>
                                 <Link className="link" to="">Settings</Link>
