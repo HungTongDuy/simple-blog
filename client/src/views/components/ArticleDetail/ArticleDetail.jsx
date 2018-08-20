@@ -31,7 +31,7 @@ class ArticleDetail extends React.Component {
         var n = pathname.lastIndexOf('-');
         var id = pathname.slice(n + 1, pathname.length);
         this.props.getArticleDetail(id);
-    }    
+    }
 
     clapArticle() {
         if(localStorage.Auth) {

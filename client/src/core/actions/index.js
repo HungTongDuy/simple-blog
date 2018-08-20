@@ -21,7 +21,8 @@ import {
     SET_ARTICLE_DETAIL,
     API_ARTICLE_CLAP_URL,
     API_FOLLOW_USER_URL,
-    API_COMMENT_ARTICLE_URL,
+    API_ARTICLE_COMMENT_URL,
+    API_ARTICLE_CLAP_COMMENT_URL,
     MESSAGE_POST_COMMENT_SUCCESS,
     MESSAGE_POST_COMMENT_FAILED,
     API_USER_PROFILE_URL,
@@ -258,7 +259,7 @@ export const postComment = (articleId, authorId, comment) => {
         comment: comment
     }
     return(dispatch) => {
-        axios.post(API_COMMENT_ARTICLE_URL, data).then((res) => {
+        axios.post(API_ARTICLE_COMMENT_URL, data).then((res) => {
             dispatch(openSnackbarNotification(SUCCESS, MESSAGE_POST_COMMENT_SUCCESS));
             dispatch(getArticleDetail(articleId));
         }).catch((err) => {
@@ -268,7 +269,7 @@ export const postComment = (articleId, authorId, comment) => {
     }
 }
 
-export function getUserProfile (_id) {
+export const getUserProfile = (_id) => {
     console.log('getUserProfile');
     return (dispatch) => {
         axios.get(API_USER_PROFILE_URL + _id).then((res)=>{
@@ -278,19 +279,35 @@ export function getUserProfile (_id) {
     }
 }
 
-export function change_name_user (text) {
+export const change_name_user = (text) => {
     return (dispatch) => {
         dispatch({ type: 'CHANGE_NAME_USER', data: text})
     }
 }
 
-export function edit_user(data) {
+export const edit_user = (data) => {
     return (dispatch) => {
         axios.patch(API_USER_URL, data).then((res) => {
             console.log('edit_user', res.data);
             //dispatch({ type: 'SET_EDIT_USER', data: res.data});
         }).catch((err) => {
             dispatch(openSnackbarNotification(ERROR, 'Edit user error.'));
+            console.log(err);
+        })
+    }
+}
+
+export const clap_comment = (article_id, comment_id) => {
+    const data = {
+        article_id: article_id,
+        comment_id: comment_id
+    }
+    return(dispatch) => {
+        axios.post(API_ARTICLE_CLAP_COMMENT_URL, data).then((res) => {
+            if(res.status == 200) {
+                dispatch(getArticleDetail(article_id));
+            }
+        }).catch((err) => {
             console.log(err);
         })
     }

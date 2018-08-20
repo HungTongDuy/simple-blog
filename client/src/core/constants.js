@@ -54,6 +54,10 @@ export const API_ARTICLE_CLAP_URL = `${API_BASE_URL}/api/articles/clap/`;
 
 export const API_ARTICLE_EDITOR_URL = `${API_BASE_URL}/api/article/editor/`;
 
+export const API_ARTICLE_COMMENT_URL = `${API_BASE_URL}/api/articles/comment/`;
+
+export const API_ARTICLE_CLAP_COMMENT_URL = `${API_BASE_URL}/api/articles/clap_comment/`;
+
 export const API_USER_SIGNIN_URL = `${API_BASE_URL}/api/user/signin/`;
 
 export const API_USER_URL = `${API_BASE_URL}/api/user/`;
@@ -63,8 +67,6 @@ export const API_USER_FOLLOW_URL = `${API_BASE_URL}/api/user/follow/`;
 export const API_LOGIN_URL = `${API_BASE_URL}/api/signin/`;
 
 export const API_FOLLOW_USER_URL = `${API_BASE_URL}/api/user/follow/`;
-
-export const API_COMMENT_ARTICLE_URL = `${API_BASE_URL}/api/articles/comment/`;
 
 export const API_USER_PROFILE_URL = `${API_BASE_URL}/api/user/profile/`;
 

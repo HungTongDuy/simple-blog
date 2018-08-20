@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import { formatDate } from '../../../core/utils';
 
-import { postComment, toggleDialogOpen } from '../../../core/actions';
+import { postComment, toggleDialogOpen, clap_comment } from '../../../core/actions';
 
 import SnackbarNotification from '../../components/SnackbarNotification';
 
@@ -45,7 +45,7 @@ class CommentContent extends React.Component {
     }
 
     clapComment(_id) {
-        console.log('clapComment: ', _id);
+        this.props.clap_comment(this.props.articleDetail._id, _id);
     }
 
     render() {
@@ -226,7 +226,8 @@ const CommentItem = (props) => {
 const mapDispatchtoProps = (dispatch) => {
     return({
         postComment: (articleId, authorId, comment) => dispatch(postComment(articleId, authorId, comment)),
-        toggleDialogOpen: data => dispatch(toggleDialogOpen(data)) 
+        toggleDialogOpen: data => dispatch(toggleDialogOpen(data)),
+        clap_comment: (article_id, comment_id) => dispatch(clap_comment(article_id, comment_id))
     })
 }
 
