@@ -139,38 +139,18 @@ module.exports = {
         // })
     },
     clapComment: (req, res, next) => {
-        // Article.findById(req.body.article_id).then((article) => {
-            // Article.find({_id : req.body.article_id}, {'comments._id': req.body.comment_id})
-            // .exec((err, comment) => {
-            //     if (err) {
-            //         res.send(err)
-            //     } else if (!comment) {
-            //         console.log('res 404');
-            //         res.send(404)
-            //     } else {
-            //         console.log('comment: ', comment);
-            //         //res.send(comment)
-            //     }
-            // })
-        // })
-
-        Article.findById(req.body.article_id).then((article) => {
-            console.log('article', article);
-            article.clap_comment(req.body.comment_id);
-        })
-
-        // Article.findOneAndUpdate({"_id": req.body.article_id, 'comments._id': req.body.comment_id})
-        
-        // Article.findById(req.body.article_id).then((article) => {
-        //     if(article.comments.length > 0) {
-        //         console.log('article.comment', article.comments);
-        //         article.comments.map((item, key) => {
-        //             if(item._id == req.body.comment_id) {
-        //                 console.log('comments-', key + '-' + item)
-        //                 //article.clap_comment(key, item._id)
-        //             }
-        //         })
-        //     }
-        // })
+        Article.findById(req.body.article_id).then((article)=> {
+            const comment = article.comments.find(x => x._id == req.body.comment_id);
+            Article.update(
+                {'_id': req.body.article_id, 'comments._id': req.body.comment_id}, 
+                {'$set': {
+                    'comments.$.claps': comment.claps++
+                }}, (err) => {
+                    console.log('Error: ', err);
+                }
+            )
+            article.save();
+            return res.json({msg: "Done"})
+        }).catch(next)
     }
 }
