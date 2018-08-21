@@ -23,7 +23,7 @@ class FeaturedArticleList extends React.Component {
         const numberOfItemDisplay = 4;
         let articles = this.props.articles;
         
-        if ((articles != undefined) || (articles != null)) {
+        if ((articles != undefined) && (articles != null) && (Object.keys(articles).length > 0)) {
             articles = articles.slice(0, numberOfItemDisplay);
             return (
                 <Grid item xs={12} sm={12}>               

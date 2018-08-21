@@ -12,6 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const {
     DATABASE_LOCAL,
+    DATABASE_SERVER,
     CLOUD_NAME,
     API_KEY,
     API_SECRET
@@ -70,7 +71,7 @@ if (!isProduction) {
 //mongoose.connect(DATABASE_LOCAL, { useNewUrlParser: true });
 //mongoose.connect(DATABASE_LOCAL);
 
-mongoose.connect(DATABASE_LOCAL, {
+mongoose.connect(DATABASE_SERVER, {
     //useMongoClient: true,
     useNewUrlParser: true
 });
