@@ -21,7 +21,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon app.js or npm start",
+    "start": "node app.js or npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HungTong",
