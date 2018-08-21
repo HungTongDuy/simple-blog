@@ -71,7 +71,7 @@ cloudinary.config({
 //mongoose.connect(DATABASE_LOCAL, { useNewUrlParser: true });
 //mongoose.connect(DATABASE_LOCAL);
 
-mongoose.connect(DATABASE_SERVER, {
+mongoose.connect(process.env.MONGOLAB_URI || DATABASE_LOCAL, {
     //useMongoClient: true,
     useNewUrlParser: true
 });
