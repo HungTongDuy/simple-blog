@@ -64,9 +64,9 @@ cloudinary.config({
     api_secret: API_SECRET
 })
 
-if (!isProduction) {
-    app.use(errorHandler());
-}
+// if (!isProduction) {
+//     app.use(errorHandler());
+// }
 
 //mongoose.connect(DATABASE_LOCAL, { useNewUrlParser: true });
 //mongoose.connect(DATABASE_LOCAL);
