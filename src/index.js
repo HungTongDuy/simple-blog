@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 import store from './core/store';
 import App from './views/app';
 
+import '../resources/scss/style.scss';
+
 import { SET_USER } from './core/constants';
 
 import { getUser } from './core/actions';

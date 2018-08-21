@@ -55,6 +55,8 @@ span.picture_upload {
 
 .ql-editor {
     min-height: 20em;
+    overflow: scroll;
+    height: 370px;
 }
 
 #image_preview {
