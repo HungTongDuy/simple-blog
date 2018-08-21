@@ -34,6 +34,8 @@ export const CLOSE_SNACKBAR_NOTIFICATION = 'CLOSE_SNACKBAR_NOTIFICATION';
 
 export const SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
 
+export const SET_PROFILE = 'SET_PROFILE';
+
 //=========================================================
 //  SERVER
 //---------------------------------------------------------
@@ -52,6 +54,10 @@ export const API_ARTICLE_CLAP_URL = `${API_BASE_URL}/api/articles/clap/`;
 
 export const API_ARTICLE_EDITOR_URL = `${API_BASE_URL}/api/article/editor/`;
 
+export const API_ARTICLE_COMMENT_URL = `${API_BASE_URL}/api/articles/comment/`;
+
+export const API_ARTICLE_CLAP_COMMENT_URL = `${API_BASE_URL}/api/articles/clap_comment/`;
+
 export const API_USER_SIGNIN_URL = `${API_BASE_URL}/api/user/signin/`;
 
 export const API_USER_URL = `${API_BASE_URL}/api/user/`;
@@ -59,6 +65,10 @@ export const API_USER_URL = `${API_BASE_URL}/api/user/`;
 export const API_USER_FOLLOW_URL = `${API_BASE_URL}/api/user/follow/`;
 
 export const API_LOGIN_URL = `${API_BASE_URL}/api/signin/`;
+
+export const API_FOLLOW_USER_URL = `${API_BASE_URL}/api/user/follow/`;
+
+export const API_USER_PROFILE_URL = `${API_BASE_URL}/api/user/profile/`;
 
 //=========================================================
 //  COMMON
@@ -77,12 +87,18 @@ export const VERTICAL_SNACKBAR = 'top';
 
 export const HORIZONTAL_SNACKBAR = 'right';
 
+export const FACEBOOK_APP_ID = '308747443230320';
+
 //=========================================================
 //  COMMON
 //---------------------------------------------------------
 export const MESSAGE_ADD_ARTICLE_SUCCESS = 'Add article success.';
 
 export const MESSAGE_ADD_ARTICLE_FAILED = 'Add article failed.';
+
+export const MESSAGE_POST_COMMENT_SUCCESS = 'Post comment success.';
+
+export const MESSAGE_POST_COMMENT_FAILED = 'Post comment failed.';
 
 //=========================================================
 //  ROUTER

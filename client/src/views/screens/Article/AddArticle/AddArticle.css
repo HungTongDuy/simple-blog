@@ -1,9 +1,30 @@
 span.picture_upload {
-    margin: 20px 20px;
-    /* margin-top: 20px; */
-    /* padding-top: 20px; */
-    display: block;
-    width: 20%;
+    border: 1px solid rgba(0,0,0,.44);
+    border-radius: 50%;
+    margin: 2px;
+    color: rgba(0,0,0,.44);
+    display: inline-block;
+    float: left;
+    margin-left: -40px;
+    -webkit-transition: all .1s;
+    -o-transition: all .1s;
+    transition: all .1s;
+    width: 32px;
+    height: 32px;
+    position: relative;
+}
+
+.fa-camera {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+#title-article {
+    font-size: 36px;
 }
 
 .publish-button {
@@ -12,9 +33,6 @@ span.picture_upload {
 
 .green-border-button div {
     background-color: #00ab6b !important;
-}
-.progress-public {
-    
 }
 
 .add-article-component .textField {
@@ -27,10 +45,18 @@ span.picture_upload {
     border-bottom-right-radius: 0.5em;
     background: #fefcfc;
 }
-  
+
 .ql-toolbar {
     background: #eaecec;
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
+}
+
+.ql-editor {
+    min-height: 20em;
+}
+
+#image_preview {
+    width: 100%;
 }

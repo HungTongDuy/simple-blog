@@ -24,6 +24,8 @@ import {
     signUpWithAccount
 } from '../../../core/actions';
 
+import { FACEBOOK_APP_ID } from '../../../core/constants';
+
 import GoogleLogin from 'react-google-login';
 
 import FacebookProvider, { Login } from 'react-facebook';
@@ -299,7 +301,7 @@ class SignIn extends React.Component {
                         </GoogleLogin>
                     </Grid>
                     <Grid item xs={12} sm={12} className="signin-grid-button">                        
-                        <FacebookProvider appId="308747443230320">
+                        <FacebookProvider appId={FACEBOOK_APP_ID}>
                             <Login
                             scope="email"
                             onResponse={this.handleResponse}

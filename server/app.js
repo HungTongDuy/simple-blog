@@ -12,6 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const {
     DATABASE_LOCAL,
+    DATABASE_SERVER,
     CLOUD_NAME,
     API_KEY,
     API_SECRET
@@ -70,7 +71,7 @@ if (!isProduction) {
 //mongoose.connect(DATABASE_LOCAL, { useNewUrlParser: true });
 //mongoose.connect(DATABASE_LOCAL);
 
-mongoose.connect(DATABASE_LOCAL, {
+mongoose.connect(DATABASE_SERVER, {
     //useMongoClient: true,
     useNewUrlParser: true
 });
@@ -86,47 +87,35 @@ require('./models/Counter');
 // Add routes
 app.use(require('./routes'));
 
-app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+// app.use((req, res, next) => {
+//     const err = new Error('Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 
-if (!isProduction) {
-    app.use((err, req, res) => {
-        res.status(err.status || 500);
+// if (!isProduction) {
+//     app.use((err, req, res) => {
+//         res.status(err.status || 500);
 
-        res.json({
-            errors: {
-                message: err.message,
-                error: err,
-            },
-        });
-    });
-}
+//         res.json({
+//             errors: {
+//                 message: err.message,
+//                 error: err,
+//             },
+//         });
+//     });
+// }
 
-app.use((err, req, res) => {
-    res.status(err.status || 500);
+// app.use((err, req, res) => {
+//     res.status(err.status || 500);
 
-    res.json({
-        errors: {
-            message: err.message,
-            error: {},
-        },
-    });
-});
-
-app.all('/*', function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin: *');
-    res.setHeader('Access-Control-Allow-Credentials: true');
-    res.setHeader('Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers: accept, content-type, x-xsrf-token, x-csrf-token, authorization');
-    if (req.method == 'OPTIONS') {
-        res.status(200).end();
-    } else {
-        next();
-    }
-});
+//     res.json({
+//         errors: {
+//             message: err.message,
+//             error: {},
+//         },
+//     });
+// });
 
 // **************
 //  passport

@@ -18,10 +18,6 @@ import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import ErrorIcon from '@material-ui/icons/Error';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CloseIcon from '@material-ui/icons/Close';
 // Require Editor JS files.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 
@@ -45,10 +41,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 
 import ReactQuill, { Quill } from 'react-quill'; // ES6
-//import quillEmoji from 'quill-emoji';
-//quillEmoji(Quill);
-// import * as ReactQuill from 'react-quill'; // Typescript
-// const ReactQuill = require('react-quill');
 import 'react-quill/dist/quill.snow.css'; // ES6
 
 
@@ -136,7 +128,7 @@ class Form extends React.Component {
 
     onContentStateChange(contentState) {
         this.setState({
-          contentState : contentState
+            contentState : contentState
         })
     };
 
@@ -200,7 +192,7 @@ class Form extends React.Component {
             //     claps: 0
             // }
             const formdata = new FormData()
-            formdata.append('text', this.state.text)
+            formdata.append('text', this.state.textQuill)
             formdata.append('image', this.state.imgSrc)
             formdata.append('title', this.state.title)
             formdata.append('author_id', JSON.parse(localStorage.Auth)._id)
@@ -236,39 +228,28 @@ class Form extends React.Component {
         console.log('state-addArticle: ', this.state);
         const common = this.props;
 
-        const options=  {
-            placeholder: "Edit Me",
-            events : {
-                'froalaEditor.focus' : function(e, editor) {
-                    console.log('froalaEditor.focus: ', editor.selection.get());
-                },
-                'froalaEditor.image.loaded' : function (e, editor, $img) {
-                    console.log('froalaEditor.image.loaded', $img);
-                },
-                'froalaEditor.image.inserted' : function (e, editor, $img, res) {
-                    console.log('froalaEditor.image.inserted', $img + '-' + res);
-                },
-                'froalaEditor.image.beforeUpload' : function (e, editor, images) {
-                    console.log('froalaEditor.image.beforeUpload', images);
-                },
-            }
-        }
-
-        // const config = {
-        //     toolbarButtons: ['undo', 'redo', 'clearFormatting', 'selectAll', 'html', 'insertInputField']
-        // }
-
         return (
             <CardContent className="add-article-component">
                 <Grid container spacing={24} item xs={8} sm={8} className="editor-article-container">
                     <Grid item xs={12} sm={12}>
+                        <Grid item xs={2} sm={2}>
+                            <span className="picture_upload" onClick={this.handleClick}>
+                                <i className="fa fa-camera"></i>
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <div className={this.state.imgSrc != null ? 'file-upload-previewer' : 'file-upload-previewer hidden'}>
+                                <img src="" alt="" id="image_preview"/>
+                            </div>
+                            <div className="existing-img-previewer" id="existing-img-previewer">
+                            </div>
+                        </Grid>
                         <Grid item xs={12} sm={12}>
                             <TextField
                                 label="Title"
                                 placeholder="Title"
                                 className="textField"
                                 id="title-article"
-                                //ref="refTitle"
                                 margin="normal"
                                 onChange={this.handleChangeTitle}
                             />
@@ -277,14 +258,13 @@ class Form extends React.Component {
                             /> */}
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            <FroalaEditor 
+                            {/* <FroalaEditor 
                                 id="editor"
                                 tag='textarea'
                                 config={config}
                                 //model={this.state.model}
                                 onModelChange={this.handleModelChange}
-                                options={options}
-                            />
+                            /> */}
 
                             {/* <Editor
                                 editorState={this.state.editorState}
@@ -295,7 +275,6 @@ class Form extends React.Component {
                                 onContentStateChange={this.onContentStateChange}
                                 //toolbar={toolbar}
                             /> */}
-                            {/* <CustomToolbar /> */}
                             <ReactQuill 
                                 value={this.state.textQuill}
                                 onChange={this.handleChangeQuill}
@@ -307,18 +286,6 @@ class Form extends React.Component {
                         <Grid item xs={12} sm={12}>
                             <div className="hidden">
                                 <input type="file" onChange={ ()=>this.previewImg()} id="file" ref="fileUploader"/>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <span className="picture_upload">
-                                <i className="fa fa-camera" onClick={this.handleClick}></i>
-                            </span>
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <div className={this.state.imgSrc != null ? 'file-upload-previewer' : 'file-upload-previewer hidden'}>
-                                <img src="" alt="" id="image_preview"/>
-                            </div>
-                            <div className="existing-img-previewer" id="existing-img-previewer">
                             </div>
                         </Grid>
                     </Grid>
@@ -342,44 +309,30 @@ class Form extends React.Component {
 }
 var toolbarOptions = {
     container: [
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': ['serif','monospace'] }],
         ['bold', 'italic', 'underline', 'strike'],     // toggled buttons
         ['blockquote', 'code-block'],
         [{ 'align': ['','center','right','justify'] }],
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        //[{ 'header': 1 }, { 'header': 2 }],               // custom button values
         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
         //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
         [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
         [{ 'direction': 'rtl' }],                         // text direction
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        [{ 'font': ['serif','monospace'] }],
         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         ['link','image','video'],
         ['clean']                                         // remove formatting button
-    ],
-    handlers: {'emoji': function() {}}
+    ]
 }
 
 Form.modules = {
     toolbar: toolbarOptions,
-    //toolbar_emoji: true,
     clipboard: {
         matchVisual: false,
-    },
-    imageDrop: true,
-    imageResize: {}
+    }
 };
-// Editor.modules = {
-//     toolbar: {
-//       container: "#toolbar",
-//       handlers: {
-//         insertStar: insertStar
-//       }
-//     },
-//     clipboard: {
-//       matchVisual: false,
-//     }
-//   };
+
 Form.formats = [
     "header",
     "font",
@@ -393,47 +346,11 @@ Form.formats = [
     "bullet",
     "indent",
     "link",
-    "imagewithstyle",
+    "image",
     "color",
     "video",
     "width"
 ];
-
-const CustomButton = () => <span className="octicon octicon-star" />;
-
-function insertStar () {
-    const cursorPosition = this.quill.getSelection().index
-    this.quill.insertText(cursorPosition, "★")
-    this.quill.setSelection(cursorPosition + 1)
-}
-
-const CustomToolbar = () => (
-    <div id="toolbar">
-      <select className="ql-header" defaultValue={""} onChange={e => e.persist()}>
-        <option value="1" />
-        <option value="2" />
-        <option selected />
-      </select>
-      <button className="ql-bold" />
-      <button className="ql-italic" />
-      <select className="ql-color">
-        <option value="red" />
-        <option value="green" />
-        <option value="blue" />
-        <option value="orange" />
-        <option value="violet" />
-        <option value="#d0d1d2" />
-        <option selected />
-      </select>
-      <button className="ql-insertStar">
-        <CustomButton />
-      </button>
-      <span className="ql-formats"><button type="button" className="ql-bold"><svg viewBox="0 0 18 18"> <path className="ql-stroke" d="M5,4H9.5A2.5,2.5,0,0,1,12,6.5v0A2.5,2.5,0,0,1,9.5,9H5A0,0,0,0,1,5,9V4A0,0,0,0,1,5,4Z"></path> <path className="ql-stroke" d="M5,9h5.5A2.5,2.5,0,0,1,13,11.5v0A2.5,2.5,0,0,1,10.5,14H5a0,0,0,0,1,0,0V9A0,0,0,0,1,5,9Z"></path> </svg></button><button type="button" className="ql-italic"><svg viewBox="0 0 18 18"> <line className="ql-stroke" x1="7" x2="13" y1="4" y2="4"></line> <line className="ql-stroke" x1="5" x2="11" y1="14" y2="14"></line> <line className="ql-stroke" x1="8" x2="10" y1="14" y2="4"></line> </svg></button><button type="button" className="ql-underline"><svg viewBox="0 0 18 18"> <path className="ql-stroke" d="M5,3V9a4.012,4.012,0,0,0,4,4H9a4.012,4.012,0,0,0,4-4V3"></path> <rect className="ql-fill" height="1" rx="0.5" ry="0.5" width="12" x="3" y="15"></rect> </svg></button><button type="button" className="ql-strike"><svg viewBox="0 0 18 18"> <line className="ql-stroke ql-thin" x1="15.5" x2="2.5" y1="8.5" y2="9.5"></line> <path className="ql-fill" d="M9.007,8C6.542,7.791,6,7.519,6,6.5,6,5.792,7.283,5,9,5c1.571,0,2.765.679,2.969,1.309a1,1,0,0,0,1.9-.617C13.356,4.106,11.354,3,9,3,6.2,3,4,4.538,4,6.5a3.2,3.2,0,0,0,.5,1.843Z"></path> <path className="ql-fill" d="M8.984,10C11.457,10.208,12,10.479,12,11.5c0,0.708-1.283,1.5-3,1.5-1.571,0-2.765-.679-2.969-1.309a1,1,0,1,0-1.9.617C4.644,13.894,6.646,15,9,15c2.8,0,5-1.538,5-3.5a3.2,3.2,0,0,0-.5-1.843Z"></path> </svg></button></span>
-
-
-    </div>
-);
-
 
 const mapDispatchToProps = (dispatch) => ({
     onSubmit: data => dispatch({ type: SUBMIT_ARTICLE, data }),

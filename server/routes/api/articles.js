@@ -45,6 +45,11 @@ router.post('/comment', articleController.commentArticle);
  */
 router.get('/:id', articleController.getArticle);
 
-router.get('/sequence', articleController.getSequence);
+/**
+ * clap on an article
+ */
+router.post('/clap_comment', articleController.clapComment);
+
+//router.get('/sequence', articleController.getSequence);
 
 module.exports = router;

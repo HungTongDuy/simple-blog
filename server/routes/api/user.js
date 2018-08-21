@@ -38,6 +38,11 @@ router.get('/profile/:id', userController.getUserProfile);
 router.post('/', userController.addUser);
 
 /**
+ * edit a user
+ */
+router.patch('/', userController.editUser);
+
+/**
  * follow a user
  */
 router.post('/follow', userController.followUser);

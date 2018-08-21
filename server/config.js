@@ -12,6 +12,8 @@
 //---------------------------------------------------------
 exports.DATABASE_LOCAL = 'mongodb://localhost:27017/simpleblog';
 
+exports.DATABASE_SERVER = 'mongodb://hungtong:hung764119@ds225492.mlab.com:25492/simple-medium';
+
 exports.DATABASE_TEST = 'mongodb://localhost/lightblog';
 
 exports.DATABASE_PRODUCTION = 'mongodb://localhost/lightblog';

@@ -7,11 +7,12 @@ const initialState = {
     title: '',
     text: '',
     description: '',
-    imgSrc: null
+    imgSrc: null,
+    author: {}
 }
 
 export default ( state = initialState, action ) => {
-    console.log('reducers-common: ', action);
+    // console.log('reducers-common: ', action);
     switch(action.type) {
         case PROGRESS_PUBLISH:
             return {

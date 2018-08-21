@@ -1,5 +1,6 @@
 .postMetaHeader {
     padding-top: 35px;
+    margin: 0 auto;
 }
 
 .row {
@@ -222,7 +223,7 @@ img {
 }
 
 .button--withChrome.button--smallest {
-    height: 19px;
+    height: 25px;
     line-height: 19px;
     padding: 0 10px;
 }
@@ -271,6 +272,10 @@ img {
     margin-top: 38px;
 }
 
+.postArticle-content .graf--p img {
+    width: 100%;
+}
+
 .postArticle-content .graf--p {
     --x-height-multiplier: 0.375;
     --baseline-multiplier: 0.17;
@@ -281,6 +286,10 @@ img {
     font-size: 20px;
     line-height: 1.58;
     letter-spacing: -.003em;
+}
+.responsesStream-editor .graf--p {
+    font-size: 16px!important;
+    margin-top: 5px!important;
 }
 
 .graf--title {
@@ -320,6 +329,7 @@ summary {
 
 .postActions {
     background: #fff;
+    margin: 0 auto;
 }
 
 .u-flexCenter {
@@ -572,11 +582,6 @@ svg:not(:root) {
 
 .u-borderTopLightest {
     border-top: 1px solid rgba(0, 0, 0, .05) !important;
-}
-
-.uiScale {
-    line-height: 20px;
-    font-size: 16px;
 }
 
 .u-paddingBottom18 {
@@ -835,7 +840,7 @@ svg:not(:root) {
 
 .button--withChrome {
     height: 37px;
-    line-height: 37px;
+    line-height: 28px;
     padding: 0 16px;
     border: 1px solid rgba(0, 0, 0, .15);
     -webkit-border-radius: 4px;
@@ -942,10 +947,6 @@ svg:not(:root) {
     margin-bottom: 0;
 }
 
-.postArticle--short .postArticle-content {
-    cursor: pointer;
-}
-
 .postArticle-content,
 .postArticle-content:focus {
     outline: 0;
@@ -995,17 +996,8 @@ user agent stylesheet div {
     cursor: pointer;
 }
 
-.postArticle--short .postArticle-content {
-    cursor: pointer;
-}
-
-.postArticle--short .sectionLayout--insetColumn {
-    padding-left: 0;
-    padding-right: 0;
-}
-
 .postArticle--full .sectionLayout--insetColumn {
-    max-width: 740px;
+    max-width: 770px;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -1016,6 +1008,14 @@ user agent stylesheet div {
     margin: 0 auto;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.u-maxWidth740 {
+    max-width: 740px;
+}
+
+.supplementalPostContent {
+    margin: 0 auto;
 }
 
 .postArticle--short .postArticle-content .graf--leading {
@@ -1210,4 +1210,55 @@ menu, ol, ul {
 }
 .js-progressiveMedia-inner img {
     width: 100%!important;
+}
+.u-accentColor--buttonNormal.button--filled:not(.clapButton--largePill), .u-accentColor--buttonNormal.button--withChrome.is-active:not(.clapButton--largePill) {
+    background-color: #429A35 !important;
+    border-color: #429A35 !important;
+    color: rgba(255, 255, 255, 1) !important;
+    fill: rgba(255, 255, 255, 1) !important;
+}
+.followState .button-label {
+    font-size: 14px!important;
+}
+
+.comment-form__write {
+    display: flex;
+    margin: 8px 0 14px;
+}
+.editor-lite {
+    width: 100%;
+    position: relative;
+}
+.editor-lite textarea {
+    padding: 8px 8px 30px;
+    width: 100%;
+    resize: none;
+    outline: none;
+    min-height: 90px;
+    vertical-align: top;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 3px;
+    transition: border-color .1s ease-in;
+    overflow: hidden;
+    word-wrap: break-word;
+    height: 120px;
+}
+.comment-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+.avatar-comment {
+    margin-right: 10px;
+}
+.streamItem .graf {
+    text-decoration: none!important;
+    color: rgba(0, 0, 0, 0.87);
+}
+.comment-text a {
+    text-decoration: none;
+}
+.streamItem .postArticle {
+    width: 97% !important;
+    margin: 0 auto;
 }

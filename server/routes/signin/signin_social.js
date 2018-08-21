@@ -2,8 +2,8 @@ const router = require('express').Router();
 const passport = require('passport');
 var jwt    = require('jsonwebtoken');
 
-router.post('/', passport.authenticate('local.signin'), (req, res) => {
-    console.log('signin success', req.user);
+router.post('/', (req, res) => {
+    console.log('signin social success',);
 
     // var load = {
 	// 	email: req.user.email,
