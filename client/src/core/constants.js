@@ -46,7 +46,9 @@ export const PORT = 8000;
 //=========================================================
 //  API
 //---------------------------------------------------------
-export const API_BASE_URL = `http://${HOST}:${PORT}`;
+// export const API_BASE_URL = `http://${HOST}:${PORT}`;
+
+export const API_BASE_URL = 'https://simple-medium-api.herokuapp.com';
 
 export const API_ARTICLE_URL = `${API_BASE_URL}/api/articles/`;
 

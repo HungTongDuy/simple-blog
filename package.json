@@ -1,0 +1,25 @@
+{
+  "name": "simple-blog",
+  "version": "1.0.0",
+  "description": "Blog-Tutorial",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^3.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "concurrently \"node server/app.js\" \"npm run start:client\" ",
+    "start:client": "cd client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HungTongDuy/simple-blog.git"
+  },
+  "author": "HungTong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HungTongDuy/simple-blog/issues"
+  },
+  "homepage": "https://github.com/HungTongDuy/simple-blog#readme"
+}

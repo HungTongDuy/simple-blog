@@ -21,9 +21,14 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js or npm start",
+    "dev": "nodemon app.js", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HungTong",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "6.11.2",
+    "npm": "3.10.10"
+  }
 }
