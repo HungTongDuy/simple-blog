@@ -25,7 +25,7 @@ const initialState = {
 }
 
 export default ( state = initialState, action ) => {
-    // console.log('reducers-common: ', action);
+    console.log('reducers-common: ', action);
     switch(action.type) {
         case TOGGLE_CLOSE_DIALOG_SIGNIN:
             return {

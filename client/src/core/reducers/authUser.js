@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export default ( state = initialState, action ) => {
-    // console.log('reducers-authUser: ', action);
+    console.log('reducers-authUser: ', action);
     switch(action.type) {
         case SET_USER:
             return {

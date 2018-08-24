@@ -46,9 +46,9 @@ export const PORT = 8000;
 //=========================================================
 //  API
 //---------------------------------------------------------
-// export const API_BASE_URL = `http://${HOST}:${PORT}`;
+export const API_BASE_URL = `http://${HOST}:${PORT}`;
 
-export const API_BASE_URL = 'https://simple-medium-api.herokuapp.com';
+//export const API_BASE_URL = 'https://simple-medium-api.herokuapp.com';
 
 export const API_ARTICLE_URL = `${API_BASE_URL}/api/articles/`;
 
@@ -105,6 +105,10 @@ export const MESSAGE_POST_COMMENT_FAILED = 'Post comment failed.';
 //=========================================================
 //  ROUTER
 //---------------------------------------------------------
+
+export const PORT_CLIENT = 8002;
+
+export const API_CLIENT_URL = `http://${HOST}:${PORT_CLIENT}`;
 
 export const ROUTE_ARTICLE_VIEW = '/article-view/';
 

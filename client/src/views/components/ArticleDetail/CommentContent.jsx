@@ -70,7 +70,7 @@ class CommentContent extends React.Component {
                         <div className="inlineNewPostControl js-inlineNewPostControl" data-action-scope="_actionscope_26">
                             <div className="comment-form__write has-avatar">
                                 <a href="#" className="">
-                                    <Avatar alt={"Go to the profile of " + user.name} src={user.provider_pic} className="avatar-comment avatar--md mx-05" /> 
+                                    <Avatar alt={"Go to the profile of " + user.name} src={user.provider_pic.url} className="avatar-comment avatar--md mx-05" /> 
                                 </a>
                                 <div className="editor-lite" name="comment_contents" placeholder="Write a response..." rows="1">
                                     <textarea onChange={this.changeTextComment} className="graf graf--p" name="comment_contents" placeholder="Write a response..." rows="1"></textarea>
@@ -132,7 +132,7 @@ const CommentItem = (props) => {
                             <div className="u-flexCenter">
                                 <div className="postMetaInline-avatar u-flex0">
                                     <a className="link u-baseColor--link avatar" href={url} data-action="show-user-card" data-action-value="f55b78ed1d0c" data-action-type="hover" data-user-id="f55b78ed1d0c" dir="auto">
-                                        <Avatar src={comment.author.provider_pic} className="avatar-image u-size36x36 u-xs-size32x32" alt={"Go to the profile of " + comment.author.name} />
+                                        <Avatar src={comment.author.provider_pic.url} className="avatar-image u-size36x36 u-xs-size32x32" alt={"Go to the profile of " + comment.author.name} />
                                     </a>
                                 </div>
                                 <div className="postMetaInline postMetaInline-authorLockup ui-captionStrong u-flex1 u-noWrapWithEllipsis">

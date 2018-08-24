@@ -57,7 +57,7 @@ class NewArticleList extends React.Component {
                                 </Grid>
                                 <Grid item className="extremePostPreview-image" xs={4}>
                                     <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(article.title) + '-' + article._id }>
-                                        <img src={article.feature_img} title={article.title} />
+                                        <img src={article.feature_img.url} title={article.title} />
                                     </Link>
                                 </Grid>
                             </CardContent>

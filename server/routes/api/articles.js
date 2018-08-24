@@ -20,6 +20,11 @@ const multipartWare = multipart();
 router.post('/', multipartWare, articleController.addArticle);
 
 /**
+ * edit article
+ */
+router.put('/:id', multipartWare, articleController.editArticle);
+
+/**
  * get all articles
  */
 router.get('/', articleController.getAll);

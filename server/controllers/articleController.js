@@ -8,13 +8,19 @@ module.exports = {
         console.log('req.body', req.body);
         console.log('req.files', req.files);
         let { text, title, claps, description } = req.body;
-        let articleId = 3; //getNextSequence('articleId');
+        // let articleId = 3; //getNextSequence('articleId');
         if (req.files != undefined && req.files.image) {
         //if(req.files.image) {
             console.log('req.files.image', req.files.image);
             cloudinary.uploader.upload(req.files.image.path, (result) => {
                 console.log('cloudinary.uploader.result: ', result);
-                let obj = { articleId, text, title, claps, description, feature_img: result.url != null ? result.url : '' }
+                let feature_img = {
+                    _id: result.public_id,
+                    version: result.version,
+                    format: result.format,
+                    url: result.url
+                }
+                let obj = { text, title, claps, description, feature_img: result.url != null ? feature_img : '' }
                 saveArticle(obj)
             },{
                 resource_type: 'image',
@@ -23,7 +29,7 @@ module.exports = {
                 ]
             })
         } else {
-            saveArticle({ articleId, text, title, claps, description, feature_img: '' })
+            saveArticle({ text, title, claps, description, feature_img: {} })
         }
         function saveArticle(obj) {
             new Article(obj).save((err, article) => {
@@ -58,6 +64,61 @@ module.exports = {
             //         console.log("updated!");
             //     }
             // } );
+        }
+    },
+    editArticle: (req, res, next) => {
+        console.log('req.body', req.body);
+        console.log('req.files', req.files);
+        if(req.body.hasOwnProperty("feature_img")){
+            req.body.feature_img = JSON.parse(req.body.feature_img);
+        }
+        let { text, title, description } = req.body;
+        if (req.files != undefined && req.files.image) {
+        //if(req.files.image) {
+            console.log('req.files.image', req.files.image);
+            cloudinary.uploader.upload(req.files.image.path, (result) => {
+                let feature_img = {
+                    _id: result.public_id,
+                    version: result.version,
+                    format: result.format,
+                    url: result.url != null ? result.url : '' 
+                }
+                let obj = {
+                    text : text, 
+                    title : title, 
+                    description : description, 
+                    feature_img: feature_img
+                }
+                if(req.body.feature_img.hasOwnProperty('_id') && req.body.feature_img._id != null) {
+                    cloudinary.uploader.destroy(req.body.feature_img._id, (res_destroy) => {
+                        saveArticle(obj)
+                    })
+                } else {
+                    saveArticle(obj)
+                }
+            },{
+                resource_type: 'image',
+                eager: [
+                    {effect: 'sepia'}
+                ]
+            })
+        } else {
+            let obj = {
+                text : text, 
+                title : title, 
+                description : description
+            }
+            saveArticle(obj)
+        }
+        function saveArticle(obj) {
+            Article.findOneAndUpdate({_id: req.params.id }, obj, {new : true} , (err, edited_article) => {
+                if (err)
+                    res.send(err)
+                else if (!edited_article)
+                    res.send(404)
+                else
+                    res.send(edited_article)
+            })
         }
     },
     getAll: (req, res, next) => {

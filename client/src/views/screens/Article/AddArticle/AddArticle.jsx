@@ -111,6 +111,17 @@ class Form extends React.Component {
     //     });
     // }
 
+    componentWillMount() {
+        var pathname = this.props.location.pathname;
+        console.log(pathname);
+        var start = pathname.lastIndexOf('editor/');
+        console.log('start', start);
+        var end = pathname.lastIndexOf('/edit');
+        console.log('end', end);
+        var id = pathname.slice(start, end);
+        console.log('id: ', id);
+    }
+
     handleModelChange(model) {
         console.log('handleModelChange', model);
         this.setState({
@@ -199,9 +210,6 @@ class Form extends React.Component {
             formdata.append('description', this.state.description)
             formdata.append('claps', 0)
             console.log('formdata', formdata);
-            // axios.post('http://localhost:8000/api/articles/', formdata).then((res) => {
-            //     console.log('res--', res);
-            // })
             this.props.onSubmitPublish(formdata);
         } else {
             console.log('publishStory-false');
@@ -332,25 +340,6 @@ Form.modules = {
         matchVisual: false,
     }
 };
-
-Form.formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "color",
-    "video",
-    "width"
-];
 
 const mapDispatchToProps = (dispatch) => ({
     onSubmit: data => dispatch({ type: SUBMIT_ARTICLE, data }),

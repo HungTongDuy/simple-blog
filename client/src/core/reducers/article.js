@@ -12,7 +12,7 @@ const initialState = {
 }
 
 export default ( state = initialState, action ) => {
-    // console.log('reducers-common: ', action);
+    console.log('reducers-article: ', action);
     switch(action.type) {
         case PROGRESS_PUBLISH:
             return {

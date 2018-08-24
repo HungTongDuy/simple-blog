@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const router = require('express').Router();
 const User = mongoose.model('User');
 const userController = require('./../../controllers/userController');
+const multipart = require('connect-multiparty');
+const multipartWare = multipart();
 
 /**
  * get all user
@@ -40,7 +42,7 @@ router.post('/', userController.addUser);
 /**
  * edit a user
  */
-router.patch('/', userController.editUser);
+router.put('/:id', multipartWare, userController.editUser);
 
 /**
  * follow a user

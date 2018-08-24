@@ -105,7 +105,7 @@ class ArticleDetail extends React.Component {
                             <div className="uiScale uiScale-ui--regular uiScale-caption--regular postMetaLockup postMetaLockup--authorWithBio u-flexCenter js-postMetaLockup">
                                 <div className="u-flex0">
                                     <a className="link u-baseColor--link avatar is-touched" href={href} data-action="show-user-card" data-action-source="post_header_lockup" data-action-value="" data-action-type="hover" data-user-id="" dir="auto">
-                                        <Avatar alt={"Go to the profile of " + articleDetail.author.name} src={articleDetail.author.provider_pic} className="avatar-image avatar-image--small" /> 
+                                        <Avatar alt={"Go to the profile of " + articleDetail.author.name} src={articleDetail.author.provider_pic.url} className="avatar-image avatar-image--small" /> 
                                     </a>
                                 </div>
                                 <div className="u-flex1 u-paddingLeft15 u-overflowHidden">
@@ -149,7 +149,7 @@ class ArticleDetail extends React.Component {
                                         <div className="aspectRatioPlaceholder-fill" ></div>
                                         <div className="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded is-imageLoaded" data-image-id="1*IJlgGsOIpq0lKTdf6lZATA.png" data-width="1024" data-height="1024" data-focus-x="77" data-focus-y="26" data-action="zoom" data-action-value="1*IJlgGsOIpq0lKTdf6lZATA.png" data-scroll="native">
                                             <div className="js-progressiveMedia-inner">
-                                                <img className="progressiveMedia-noscript js-progressiveMedia-inner" src={articleDetail.feature_img} />
+                                                <img className="progressiveMedia-noscript js-progressiveMedia-inner" src={articleDetail.feature_img.url} />
                                             </div>
                                         </div>
                                     </div>

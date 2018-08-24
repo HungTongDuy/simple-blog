@@ -29,7 +29,9 @@ class FeaturedArticleList extends React.Component {
                 <Grid item xs={12} sm={12}>               
                     <Grid xs={7} sm={7} item className="extremeHero-largeCard js-trackedPost">
                         <div className="extremeHero-post">
-                            <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(articles[0].title) + '-' + articles[0]._id }><img src={articles[0].feature_img} title={articles[0].title} /></Link>
+                            <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(articles[0].title) + '-' + articles[0]._id }>
+                                <img src={articles[0].feature_img.url} title={articles[0].title} />
+                            </Link>
                             <div className="extremeHero-postContent">
                                 <div className="extremeHero-titleClamp">
                                     <h3 className="title"><Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(articles[0].title) + '-' + articles[0]._id }>{articles[0].title}</Link></h3>
@@ -53,7 +55,7 @@ class FeaturedArticleList extends React.Component {
                                         <div className="extremePostPreview">
                                             <Grid item xs={4} sm={4} className="extremeHero-image">
                                                 <Link className="link" to={ROUTE_ARTICLE_VIEW + formatTitle(article.title) + '-' + article._id }>
-                                                    <img src={article.feature_img} title={article.title}/>                                                
+                                                    <img src={article.feature_img.url} title={article.title}/>                                                
                                                 </Link>
                                             </Grid>
                                             <Grid item xs={8} xs={8} className="extremeHero-postContent">

@@ -287,9 +287,13 @@ export const change_name_user = (text) => {
 
 export const edit_user = (data) => {
     return (dispatch) => {
-        axios.patch(API_USER_URL, data).then((res) => {
-            console.log('edit_user', res.data);
-            //dispatch({ type: 'SET_EDIT_USER', data: res.data});
+        var _id = JSON.parse(localStorage.Auth)._id;
+        axios.put(API_USER_URL + _id, data).then((res) => {
+            dispatch(openSnackbarNotification(SUCCESS, 'Edit user success.'));
+            axios.get(API_USER_URL + _id).then((res)=> {
+                dispatch({ type: SET_USER, user: res.data })
+            }).catch(err=>console.log('Error: ', err))
+            dispatch(getUserProfile(_id));
         }).catch((err) => {
             dispatch(openSnackbarNotification(ERROR, 'Edit user error.'));
             console.log(err);

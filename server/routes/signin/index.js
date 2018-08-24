@@ -18,9 +18,10 @@ router.use('/signin', (req, res) => {
             // create a token
             var load = {
                 email: user.email,
-                name: user.name
+				name: user.name,
+				test: 'LongNguyen'
             }
-            var token = jwt.sign(load, 'superSecret', {
+            var token = jwt.sign(load, 'LongNguyen', {
                 expiresIn: 3600 //expiresIn: 86400 // expires in 24 hours
             });
 

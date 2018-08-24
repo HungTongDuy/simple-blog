@@ -15,6 +15,7 @@ const initialState = {
 }
 
 export default ( state = {}, action ) => {
+    console.log('reducers-home-type: ', action.type);
     switch(action.type) {
         case HOME_PAGE_LOADED:
             return {

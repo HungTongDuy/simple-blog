@@ -15,8 +15,9 @@ var jwt    = require('jsonwebtoken');
 // 		if (token) {
 
 // 			// verifies secret and checks exp
-// 			jwt.verify(token, 'superSecret', function(err, decoded) {			
+// 			jwt.verify(token, 'Long', function(err, decoded) {			
 // 				if (err) {
+//                     console.log(err);
 // 					return res.json({ success: false, message: 'Failed to authenticate token.' });		
 // 				} else {
 // 					// if everything is good, save to request for use in other routes

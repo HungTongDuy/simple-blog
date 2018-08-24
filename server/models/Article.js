@@ -6,7 +6,12 @@ let ArticleSchema = new mongoose.Schema(
         text: String,
         title: String,
         description: String,
-        feature_img: String,
+        feature_img: {
+            _id: String,
+            version: String,
+            format: String,
+            url: String
+        },
         claps: Number,
         author: {
             type: mongoose.Schema.Types.ObjectId,

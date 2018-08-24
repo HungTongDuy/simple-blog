@@ -21,6 +21,7 @@ const App = () => {
                     <Route path="/categories/" />
                     <Route path="/article/editor/" component={AddArticle} />
                     <Route path="/profile/:user/:id/:key(|edit|following|followers)" component={Profile} />
+                    <Route exact path="/article/editor/:id/edit" component={AddArticle} />
                 </Switch>
             </div>
             <Footer />

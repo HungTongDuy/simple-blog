@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
 const User = mongoose.model('User');
 const passwordHash = require('password-hash');
+const cloudinary = require('cloudinary');
 
 module.exports = {
     addUser: (req, res, next) => {
@@ -13,8 +14,18 @@ module.exports = {
                 if (err) {
                     res.send(err);
                 } else if (user.length == 0) {
+                    let data = {
+                        name: req.body.name,
+                        email: req.body.email,
+                        provider: req.body.provider,
+                        provider_id: req.body.provider_id,
+                        token: req.body.token,
+                        provider_pic: {
+                            url: req.body.provider_pic
+                        }
+                    }
                     console.log('!!!user');
-                    new User(req.body).save((err, newUser) => {
+                    new User(data).save((err, newUser) => {
                         if (err)
                             return res.send(err)
                         else if (!newUser)
@@ -32,10 +43,20 @@ module.exports = {
             })
         } else {
             console.log('none provider_id');
-            if(req.body.hasOwnProperty('password')) {
-                req.body.password = passwordHash.generate(req.body.password);
+            let data = {
+                name: req.body.name,
+                email: req.body.email,
+                provider: req.body.provider,
+                provider_id: req.body.provider_id,
+                token: req.body.token,
+                provider_pic: {
+                    url: req.body.provider_pic
+                }
             }
-            new User(req.body).save((err, newUser) => {
+            if(req.body.hasOwnProperty('password')) {
+                data.password = passwordHash.generate(req.body.password);
+            }
+            new User(data).save((err, newUser) => {
                 if (err)
                     res.send(err)
                 else if (!newUser)
@@ -101,12 +122,30 @@ module.exports = {
         }).catch((err)=>console.log(err))
     },
     editUser: (req, res, next) => {
-        console.log('req-user: ', req.body);
-        console.log('req-user: ', req.files);
+        if(req.body.hasOwnProperty("provider_pic")) {
+            req.body.provider_pic = JSON.parse(req.body.provider_pic);
+        }
+        console.log('req-body: ', req.body);
+        console.log('req-files: ', req.files);
         if (req.files != undefined && req.files.image) {
                 cloudinary.uploader.upload(req.files.image.path, (result) => {
-                    let obj = { name: req.body.name, provider_pic: result.url != null ? result.url : ''}
-                    saveUser(obj)
+                    console.log('result-user: ', result);
+                    let provider_pic = {
+                        _id: result.public_id,
+                        version: result.version,
+                        format: result.format,
+                        url: result.url
+                    }
+                    let obj = { name: req.body.name, provider_pic: result.url != null ? provider_pic : ''}
+                    if(req.body.provider_pic.hasOwnProperty('_id') && req.body.provider_pic._id != null) {
+                        console.log('destroy', req.body.provider_pic._id);
+                        cloudinary.uploader.destroy(req.body.provider_pic._id, (res_destroy) => {
+                            saveUser(obj)
+                        })
+                    } else {
+                        console.log('non-destroy', req.body.provider_pic._id);
+                        saveUser(obj)
+                    }
                 },{
                     resource_type: 'image',
                     eager: [
@@ -114,12 +153,11 @@ module.exports = {
                     ]
                 })
         } else {
-            console.log('req.files undefined');
             let obj = { name: req.body.name, provider_pic: req.body.provider_pic != null ? req.body.provider_pic : ''}
             saveUser(obj);
         }
         function saveUser(obj){
-            User.findOneAndUpdate({_id: req.body._id }, obj, {new : true} , (err, user) => {
+            User.findOneAndUpdate({_id: req.params.id }, obj, {new : true} , (err, user) => {
                 if (err)
                     res.send(err)
                 else if (!user)

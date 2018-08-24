@@ -97,7 +97,7 @@ class Header extends React.Component {
                             <div className="group-user">
                                 <Link className="link button green-border-button" data-behavior="trigger-overlay" to="/article/editor">Write a story</Link>
                                 {(authUser.user.provider_pic != null && authUser.user.provider_pic != undefined)  ?
-                                    <Avatar onClick={this.handleClick} alt={authUser.user.name} src={authUser.user.provider_pic} className="avatar" /> 
+                                    <Avatar onClick={this.handleClick} alt={authUser.user.name} src={authUser.user.provider_pic.url} className="avatar" /> 
                                     :
                                     <Icon className="avatar" color="primary" onClick={this.handleClick}>
                                         account_circle

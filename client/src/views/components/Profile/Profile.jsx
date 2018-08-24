@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 
 import './Profile.css';
 
+import ArticleList from './ArticleList';
+
 import SnackbarNotification from '../SnackbarNotification';
 
 import { getUserProfile, followUser, toggleDialogOpen, change_name_user, edit_user } from '../../../core/actions';
@@ -69,23 +71,15 @@ class Profile extends React.Component {
     }
 
     saveUser() {
-        const formData = new FormData();
-        formData.append('_id', this.props.profile.user._id);
-        formData.append('name', this.props.authUser.edit_name);
-        formData.append('image', this.state.imgSrc);
-        formData.append('provider_pic', this.props.profile.user.provider_pic);
-        console.log('formdata', formData);
-        // let data = {};
-        // data._id = this.props.profile.user._id;
-        // data.name = this.props.authUser.edit_name;
-        // data.image = this.state.imgSrc;
-        // data.provider_pic = this.props.profile.user.provider_pic;
-        // console.log('data', data);
-        this.props.edit_user(formData);
+        const formdata = new FormData();
+        formdata.append('_id', this.props.user._id);
+        formdata.append('name', this.props.authUser.edit_name);
+        formdata.append('image', this.state.imgSrc);
+        formdata.append('provider_pic', JSON.stringify(this.props.user.provider_pic));
+        this.props.edit_user(formdata);
     }
 
     render() {
-        const articleDetail = this.props.articleDetail;
         const user = this.props.user;
         const profile = this.props.profile;
         const params = this.props.match.params;
@@ -107,9 +101,9 @@ class Profile extends React.Component {
         }
 
         let isEdit = false;
-        // if(profile.user._id == user._id) {
-        //     isEdit = true;
-        // }
+        if(profile.user._id == user._id) {
+            isEdit = true;
+        }
 
         let n = profile.user.email.lastIndexOf('@');
         let user_key = profile.user.email.slice(0, n);
@@ -120,58 +114,60 @@ class Profile extends React.Component {
             return (
                 <div className="row pt-5 container homeContainer main">
                     <div className="profile-container">
-                    <Grid item xs={12} sm={12} className="banner-container">
-                        <Grid item xs={9} sm={9}>
-                            <div className="user-info">
-                                <h1 className="user-name">
-                                <TextField
-                                    label="Name"
-                                    // placeholder="Title"
-                                    value={this.props.authUser.edit_name}
-                                    className="textField"
-                                    margin="normal"
-                                    onChange={this.changeName}
-                                />
-                                    {/* <input className="" value={profile.user.name} onChange={this.changeName} /> */}
-                                </h1>
-                            </div>
-                            <div className="user-des">
-                                <p className="user-des-content"></p>
-                            </div>
-                        </Grid>
-                        <Grid item xs={3} sm={3} className="user-avatar">
-                            <span className="picture_upload" onClick={this.handleClick}>
-                                <i className="fa fa-camera"></i>
-                            </span>
-                            <img alt={profile.user.name} src={profile.user.provider_pic} id="img_preview" className="image-avt" width="120" height="120" />
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <div className="hidden">
-                            <input type="file" onChange={ ()=>this.previewImg()} id="file" ref="fileUploader"/>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <Button 
-                            onClick={this.saveUser} 
-                            variant="contained" 
-                            className="btn btn-primary float-right publish-button" 
-                            color="primary" >
-                            Save
-                        </Button>
-                        <Link to={href} className="link">
-                            <Button 
-                                // onClick={this.publishStory} 
-                                variant="contained" 
-                                className="btn btn-primary float-right publish-button" 
-                                color="primary" >
-                                Cancel
-                            </Button>
-                        </Link>
-                        { !common.loadingPublish ? '' :
-                            <LinearProgress className="progress-public green-border-button" />
-                        }
-                    </Grid>
+                        <form className="editor-form main-editor" autoComplete="off" encrypt="multipart/form-data">
+                            <Grid item xs={12} sm={12} className="banner-container">
+                                <Grid item xs={9} sm={9}>
+                                    <div className="user-info">
+                                        <h1 className="user-name">
+                                        <TextField
+                                            label="Name"
+                                            // placeholder="Title"
+                                            value={this.props.authUser.edit_name}
+                                            className="textField"
+                                            margin="normal"
+                                            onChange={this.changeName}
+                                        />
+                                            {/* <input className="" value={profile.user.name} onChange={this.changeName} /> */}
+                                        </h1>
+                                    </div>
+                                    <div className="user-des">
+                                        <p className="user-des-content"></p>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} sm={3} className="user-avatar">
+                                    <span className="picture_upload" onClick={this.handleClick}>
+                                        <i className="fa fa-camera"></i>
+                                    </span>
+                                    <img alt={profile.user.name} src={profile.user.provider_pic.url} id="img_preview" className="image-avt" width="120" height="120" />
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <div className="hidden">
+                                    <input type="file" onChange={ ()=>this.previewImg()} id="file" ref="fileUploader"/>
+                                </div>
+                            </Grid>
+                            <Grid item xs={12} sm={12}>
+                                <Button 
+                                    onClick={this.saveUser} 
+                                    variant="contained" 
+                                    className="btn btn-primary float-right publish-button" 
+                                    color="primary" >
+                                    Save
+                                </Button>
+                                <Link to={href} className="link">
+                                    <Button 
+                                        // onClick={this.publishStory} 
+                                        variant="contained" 
+                                        className="btn btn-primary float-right publish-button" 
+                                        color="primary" >
+                                        Cancel
+                                    </Button>
+                                </Link>
+                                { !common.loadingPublish ? '' :
+                                    <LinearProgress className="progress-public green-border-button" />
+                                }
+                            </Grid>
+                        </form>
                     </div>
                     <SnackbarNotification />
                 </div>
@@ -220,13 +216,16 @@ class Profile extends React.Component {
                         </div>
                     </Grid>
                     <Grid item xs={3} sm={3} className="user-avatar">
-                        <img alt={profile.user.name} src={profile.user.provider_pic} className="image-avt" width="120" height="120" />
+                        <img alt={profile.user.name} src={profile.user.provider_pic.url} className="image-avt" width="120" height="120" />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sm={12} className="">
                     {params.key == '' ? '' :
                     <FollowList followUser={this.followUser} user={user} followKey={params.key} profile={profile} />
                     }
+                </Grid>
+                <Grid item xs={12} sm={12} className="">
+                    <ArticleList />
                 </Grid>
                 </div>
                 <SnackbarNotification />
@@ -292,7 +291,7 @@ const FollowList = (props) => {
                 return (
                     <div key={key}>
                         <Grid item xs={2} sm={2}>
-                            <img src={item.provider_pic} className="avatar-image avatar-image--small" alt="Go to the profile of Tony George" />
+                            <img src={item.provider_pic.url} className="avatar-image avatar-image--small" alt="Go to the profile of Tony George" />
                         </Grid>
                         <Grid item xs={10} sm={10}>
                             <Link to={href} target="_self" className="link">{item.name}</Link>
